@@ -37,4 +37,7 @@ urlpatterns = [
     
     # ------------------------------------------------------------------------------------ 
     path('delete-student/<str:username>/',delete_student,name='delete_student'),
+    # ------------------------------------------------------------------------------------ 
+    path('upload-document/',upload_document,name='upload_document'),
+    
 ] 

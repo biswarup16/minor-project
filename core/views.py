@@ -174,6 +174,11 @@ def dashboard(request):
     else:
         admission_form = 'False'   
        
+    admission_document = AdmissionDocument.objects.filter(user=request.user).first()
+    if admission_document is not None:
+        admission_document_form = 'True'
+    else:
+        admission_document_form = 'False'
     
     # admission_form = AdmissionForm.objects.get(user = user)
     # print(admission_query.user)
@@ -204,7 +209,7 @@ def dashboard(request):
     
     
     
-    return render(request,'dashboard/dashboard.html',{'profile_obj':profile_obj,'user':user,'prospectus':prospectus,'admission_form':admission_form,'admission_query':admission_query})    
+    return render(request,'dashboard/dashboard.html',{'profile_obj':profile_obj,'user':user,'prospectus':prospectus,'admission_form':admission_form,'admission_query':admission_query,'admission_document_form':admission_document_form})    
 
 # ------------------------Email Verification Code----------------------------  
 
@@ -367,7 +372,7 @@ def send_admission_form(request):
         post_graduation_percentage = request.POST.get('post_graduation_percentage')
         post_graduation_university = request.POST.get('post_graduation_university')
         
-        admission_form = AdmissionForm(user=user,full_name=full_name,father_name=father_name,father_occupation=father_occupation,father_number=father_number,mother_name=mother_name,mother_occupation=mother_occupation,mother_number=mother_number,garduian_name=garduian_name,garduian_number=garduian_number,nationality=nationality,dob=dob,gender=gender,blood_group=blood_group,caste=caste,religion=religion,hslc_board=hslc_board,hslc_passing_year=hslc_passing_year,hslc_reg=hslc_reg,hslc_roll=hslc_roll,hslc_total_marks=hslc_total_marks,hslc_marks=hslc_marks,hslc_percentage=hslc_percentage,hsslc_school=hsslc_school,hsslc_board=hsslc_board,hsslc_stream=hsslc_stream,hsslc_passing_year=hsslc_passing_year,hsslc_reg=hsslc_reg,hsslc_roll=hsslc_roll,hsslc_percentage=hsslc_percentage,graduation_course_name=graduation_course_name,graduation_board=graduation_board,graduation_course_type=graduation_course_type,graduation_year=graduation_year,graduation_reg=graduation_reg,graduation_roll=graduation_roll,graduation_total_marks=graduation_total_marks,graduation_marks=graduation_marks,graduation_percentage=graduation_percentage,graduation_university=graduation_university,post_graduation_course_name=post_graduation_course_name,post_graduation_board=post_graduation_board,post_graduation_course_type=post_graduation_course_type,post_graduation_year=post_graduation_year,post_graduation_reg=post_graduation_reg,post_graduation_roll=post_graduation_roll,post_graduation_total_marks=post_graduation_total_marks,post_graduation_marks=post_graduation_marks,post_graduation_percentage=post_graduation_percentage,post_graduation_university=post_graduation_university)
+        admission_form = AdmissionForm(user=user,full_name=full_name,father_name=father_name,father_occupation=father_occupation,father_number=father_number,mother_name=mother_name,mother_occupation=mother_occupation,mother_number=mother_number,garduian_name=garduian_name,garduian_number=garduian_number,nationality=nationality,dob=dob,gender=gender,blood_group=blood_group,caste=caste,religion=religion,hslc_board=hslc_board,hslc_passing_year=hslc_passing_year,hslc_reg=hslc_reg,hslc_roll=hslc_roll,hslc_total_marks=hslc_total_marks,hslc_marks=hslc_marks,hslc_percentage=hslc_percentage,hslc_school=hslc_school,hsslc_board=hsslc_board,hsslc_stream=hsslc_stream,hsslc_passing_year=hsslc_passing_year,hsslc_reg=hsslc_reg,hsslc_roll=hsslc_roll,hsslc_percentage=hsslc_percentage,hsslc_school=hsslc_school,graduation_course_name=graduation_course_name,graduation_board=graduation_board,graduation_course_type=graduation_course_type,graduation_year=graduation_year,graduation_reg=graduation_reg,graduation_roll=graduation_roll,graduation_total_marks=graduation_total_marks,graduation_marks=graduation_marks,graduation_percentage=graduation_percentage,graduation_university=graduation_university,post_graduation_course_name=post_graduation_course_name,post_graduation_board=post_graduation_board,post_graduation_course_type=post_graduation_course_type,post_graduation_year=post_graduation_year,post_graduation_reg=post_graduation_reg,post_graduation_roll=post_graduation_roll,post_graduation_total_marks=post_graduation_total_marks,post_graduation_marks=post_graduation_marks,post_graduation_percentage=post_graduation_percentage,post_graduation_university=post_graduation_university)
         admission_form.save()
         messages.success(request, 'Successfully Submitted Admission Form.')
     else:
@@ -402,6 +407,7 @@ def update_student_detail(request,username):
         return redirect(request.path_info)
     return render(request,'dashboard/update-student-detail.html',{'profile_obj':profile_obj,'user_obj':user_obj})
     
+# -----------------------------------Delete Student -------------------------------
 
 def delete_student(request,username):
     user_obj = User.objects.filter(username=username)
@@ -409,4 +415,31 @@ def delete_student(request,username):
     if query:
         return redirect('/students/')
     
+# -----------------------------------upload Student documents form -------------------------------
+
+def upload_document(request):
+    if request.method == 'POST':
+        user = request.POST.get('user')
+        if len(request.FILES) != 0:
+            hslc_doc = request.FILES['hslc_doc']
+            hslc_marksheet = request.FILES['hslc_marksheet']
+            hsslc_doc = request.FILES['hsslc_doc']
+            hsslc_marksheet = request.FILES['hsslc_marksheet']
+            caste_certificate = request.FILES['caste_certificate']
+    # print(user,hslc_doc,hslc_marksheet,hsslc_doc,hsslc_marksheet,caste_certificate)   
+        admission_document = AdmissionDocument(user=request.user,hslc_doc=hslc_doc,hslc_marksheet=hslc_marksheet,hsslc_doc=hsslc_doc,hsslc_marksheet=hsslc_marksheet,caste_certificate=caste_certificate)     
+        admission_document.save()
+        messages.success(request, 'Successfully Submitted Documents')
+        return redirect('/dashboard/') 
+    else:
+        messages.error(request, 'Please Fill The Fill Up The Form Correctly')
         
+        return redirect('/dashboard/') 
+        
+
+    #     user = models.ForeignKey(User,on_delete=models.CASCADE) 
+    # hslc_doc = models.ImageField(upload_to='AdmissionDocument')
+    # hslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
+    # hsslc_doc = models.ImageField(upload_to='AdmissionDocument')
+    # hsslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
+    # caste_certificate = models.ImageField(upload_to='AdmissionDocument')

@@ -789,4 +789,61 @@
 
 
 
+
+{% if not user.is_staff and not user.is_superuser and prospectus.paid == 'True' and user.admission_form is None and admission_form  == 'True' and admission_document_form == 'False' %}
+<div class="card py-lg-4 px-lg-3 mt-2">
+  
+
+        <div class="px-3">
+          <div class="alert alert-primary px-lg-5 d-flex justify-content-center align-items-center" role="alert">
+              <span class="text-center">
+                  Upload Your Documents
+              </span>
+            </div>
+      </div>
+       
+          <form action="{% url 'upload_document' %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Username</label>
+                <input class="form-control py-3 px-3 " name="user" type="text" value="{{request.user}}" id="formFile" />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Hslc Certificate</label>
+                <input class="form-control py-3 px-3 " name="hslc_doc" type="file" id="formFile" />
+              </div>
+              <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Hslc Marksheet</label>
+                <input class="form-control py-3 px-3 " name="hslc_marksheet" type="file" id="formFileMultiple"  />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Hsslc Certificate</label>
+                <input class="form-control py-3 px-3 " name="hsslc_doc" type="file" id="formFile" />
+              </div>
+              <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Hsslc Marksheet</label>
+                <input class="form-control py-3 px-3 " name="hsslc_marksheet" type="file" id="formFileMultiple"  />
+              </div>
+              <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Caste Certificate</label>
+                <input class="form-control py-3 px-3 " name="caste_certificate" type="file" id="formFileMultiple"  />
+              </div>
+              
+  
+              <div class="d-md-flex justify-content-center align-items-center">
+                <button  type="submit" style="width:100%" class="btn btn-primary px-5 py-3 mx-md-3">Submit</button>
+              </div>
+            </div>
+
+          </form>
+        
+</div> 
+
+
+{% endif %}
+
+
+
+
 {% endblock body %}

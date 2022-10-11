@@ -98,6 +98,23 @@ class AdmissionForm(models.Model):
         return self.full_name
     
     
+class AdmissionDocument(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE) 
+    hslc_doc = models.ImageField(upload_to='AdmissionDocument')
+    hslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
+    hsslc_doc = models.ImageField(upload_to='AdmissionDocument')
+    hsslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
+    caste_certificate = models.ImageField(upload_to='AdmissionDocument')
+
+
+    class Meta:
+        verbose_name = ("AdmissionDocument")
+        verbose_name_plural = ("AdmissionDocuments")
+
+    def __str__(self):
+        return str(self.user)
+
+    
     
     
     
