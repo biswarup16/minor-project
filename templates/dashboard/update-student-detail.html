@@ -1,0 +1,111 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Students{% endblock title %}
+
+{% block body %}
+
+
+<div class="card mb-4">
+    <h5 class="card-header">Update Student Details</h5>
+    <!-- Account -->
+    <form id="formAccountSettings" action="" method="POST" enctype="multipart/form-data" >
+      {% csrf_token %}
+    <div class="card-body">
+      <div class="d-flex align-items-start align-items-sm-center gap-4">
+        <img
+          {% if profile_obj.profile_pic is not None %}
+          src="{{profile_obj.profile_pic.url}}"
+          {% endif %}
+          alt="user-avatar"
+          class="d-block rounded"
+          height="100"
+          width="100"
+          id="uploadedAvatar"
+        />
+        <div class="button-wrapper">
+          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+            <span class="d-none d-sm-block">Upload new photo</span>
+            <i class="bx bx-upload d-block d-sm-none"></i>
+            <input
+              type="file"
+              id="upload"
+              name="profile"
+              {% if profile_obj.profile_pic is not None %}
+              value={{profile_obj.profile_pic.url}}
+              {% endif %}
+              class="account-file-input"
+              hidden
+              accept="image/png, image/jpeg"
+            />
+          </label>
+          {% comment %} <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+            <i class="bx bx-reset d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Reset</span>
+          </button> {% endcomment %}
+
+          {% comment %} <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p> {% endcomment %}
+          <div class="d-flex justify-content-start align-items-center">
+            <p class="text-muted mb-0">{{user_obj.username}}
+
+                {% if user_obj.is_superuser or user_obj.is_staff %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="" style="height:20px;color:#1c99e6" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                {% endif %}
+
+            </p>
+
+       
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <hr class="my-0" />
+    <div class="card-body">
+      
+        <div class="row">
+          <div class="mb-3 col-md-6">
+            <label for="firstName" class="form-label">First Name</label>
+            <input
+              class="form-control"
+              type="text"
+              id="firstName"
+              name="firstname"
+              value="{{user_obj.first_name}}"
+              autofocus
+            />
+          </div>
+          <div class="mb-3 col-md-6">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input class="form-control" type="text" name="lastname" id="lastName" value="{{user_obj.last_name}}" />
+          </div>
+          <div class="mb-3 col-md-6">
+            <label for="email" class="form-label">E-mail</label>
+            <input
+              class="form-control"
+              type="text"
+              id="email"
+              name="email"
+              value="{{user_obj.email}}"
+              placeholder="john.doe@example.com"
+              {% if not user.is_staff or not user.is_superuser %}
+              readonly
+              {% endif %}
+            />
+          </div>
+          
+        </div>
+        <div class="mt-2">
+          <button type="submit" class="btn btn-primary me-2">Save changes</button>
+          {% comment %} <button type="reset" class="btn btn-outline-secondary">Cancel</button> {% endcomment %}
+        </div>
+      
+    </div>
+    <!-- /Account -->
+  </form>
+  </div>
+
+
+{% endblock body %}

@@ -1,0 +1,12 @@
+{% extends 'base/basic.html' %}
+
+{% block title %}Email Verification Successful{% endblock title %}
+
+{% block body %}
+
+<div class="container d-flex justify-content-center flex-column align-items-center" style="height:100vh">
+    <h1>You Have Successfully Verified Your Email</h1>
+    <a href="{% url 'login' %}"><p class="btn btn-success px-5 py-2">Please Login</p></a>
+</div>
+
+{% endblock body %}

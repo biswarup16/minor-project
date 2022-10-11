@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="{% static 'assets/' %}"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>College ERP | {% block title %}{% endblock title %}</title>
+    <meta name="description" content="" />
+    {% comment %}
+    <script
+      src="https://cdn.skypack.dev/pin/@hotwired/turbo@v7.1.0-V83RMQBlYCPK9CvTqQoL/mode=imports/optimized/@hotwired/turbo.js"
+      type="module"
+    ></script>
+    {% endcomment %}
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Icons. Uncomment required icon fonts -->
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/fonts/boxicons.css' %}"
+    />
+    
+    <!-- Core CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/css/core.css' %}"
+      class="template-customizer-core-css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/css/theme-default.css' %}"
+      class="template-customizer-theme-css"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
+    <!-- Vendors CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/libs/apex-charts/apex-charts.css' %}"
+    />
+    <!-- Page CSS -->
+    <!-- Helpers -->
+    <script src="{% static 'assets/vendor/js/helpers.js' %}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{% static 'assets/js/config.js' %}"></script>
+    
+
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar shadow-lg">
+      <div class="layout-container">
+        <!-- Menu -->
+        <aside
+          id="layout-menu"
+          class="layout-menu menu-vertical menu bg-menu-theme"
+        >
+          <div class="app-brand demo">
+            <a href="{% url 'dashboard' %}" class="app-brand-link">
+              {% comment %}
+              <span class="app-brand-logo demo">
+                <svg
+                  width="25"
+                  viewBox="0 0 25 42"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <defs>
+                    <path
+                      d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
+                      id="path-1"
+                    ></path>
+                    <path
+                      d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
+                      id="path-3"
+                    ></path>
+                    <path
+                      d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
+                      id="path-4"
+                    ></path>
+                    <path
+                      d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
+                      id="path-5"
+                    ></path>
+                  </defs>
+                  <g
+                    id="g-app-brand"
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      id="Brand-Logo"
+                      transform="translate(-27.000000, -15.000000)"
+                    >
+                      <g id="Icon" transform="translate(27.000000, 15.000000)">
+                        <g id="Mask" transform="translate(0.000000, 8.000000)">
+                          <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                          </mask>
+                          <use fill="#696cff" xlink:href="#path-1"></use>
+                          <g id="Path-3" mask="url(#mask-2)">
+                            <use fill="#696cff" xlink:href="#path-3"></use>
+                            <use
+                              fill-opacity="0.2"
+                              fill="#FFFFFF"
+                              xlink:href="#path-3"
+                            ></use>
+                          </g>
+                          <g id="Path-4" mask="url(#mask-2)">
+                            <use fill="#696cff" xlink:href="#path-4"></use>
+                            <use
+                              fill-opacity="0.2"
+                              fill="#FFFFFF"
+                              xlink:href="#path-4"
+                            ></use>
+                          </g>
+                        </g>
+                        <g
+                          id="Triangle"
+                          transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) "
+                        >
+                          <use fill="#696cff" xlink:href="#path-5"></use>
+                          <use
+                            fill-opacity="0.2"
+                            fill="#FFFFFF"
+                            xlink:href="#path-5"
+                          ></use>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-2"
+                >College ERP</span
+              >
+              {% endcomment %}
+              <img
+                src="data:image/jpeg;base64,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"
+                style="height: 35px"
+                alt=""
+              />
+            </a>
+            <a
+              href="javascript:void(0);"
+              class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none"
+            >
+              <i class="bx bx-chevron-left bx-sm align-middle"></i>
+            </a>
+          </div>
+          <div class="menu-inner-shadow"></div>
+          <ul class="menu-inner py-1 shadow-lg">
+            <!-- Dashboard -->
+            <li class="menu-item active">
+              <a href="{% url 'dashboard' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+              </a>
+            </li>
+            <!-- Layouts -->
+            <!-- <li class="menu-item">
+                     <a href="javascript:void(0);" class="menu-link menu-toggle">
+                         <i class="menu-icon tf-icons bx bx-layout"></i>
+                         <div data-i18n="Layouts">Layouts</div>
+                     </a>
+                     
+                     <ul class="menu-sub">
+                         <li class="menu-item">
+                             <a href="layouts-without-menu.html" class="menu-link">
+                                 <div data-i18n="Without menu">Without menu</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="layouts-without-navbar.html" class="menu-link">
+                                 <div data-i18n="Without navbar">Without navbar</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="layouts-container.html" class="menu-link">
+                                 <div data-i18n="Container">Container</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="layouts-fluid.html" class="menu-link">
+                                 <div data-i18n="Fluid">Fluid</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="layouts-blank.html" class="menu-link">
+                                 <div data-i18n="Blank">Blank</div>
+                             </a>
+                         </li>
+                     </ul>
+                     </li> -->
+            {% if user.is_superuser %}
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Student Management</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Student Details</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{% url 'students' %}" class="menu-link">
+                    <div data-i18n="Account">Registered Students</div>
+                  </a>
+                </li>
+                {% comment %}
+                <li class="menu-item">
+                  <a
+                    href="pages-account-settings-notifications.html"
+                    class="menu-link"
+                  >
+                    <div data-i18n="Notifications">Notifications</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="pages-account-settings-connections.html"
+                    class="menu-link"
+                  >
+                    <div data-i18n="Connections">Connections</div>
+                  </a>
+                </li>
+                {% endcomment %}
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                <div data-i18n="Authentications">Authentications</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a
+                    href="auth-login-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Login</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="auth-register-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Register</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="auth-forgot-password-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Forgot Password</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                <div data-i18n="Misc">Misc</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="pages-misc-error.html" class="menu-link">
+                    <div data-i18n="Error">Error</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="pages-misc-under-maintenance.html" class="menu-link">
+                    <div data-i18n="Under Maintenance">Under Maintenance</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {% endif %}
+  
+            {% if user.is_superuser %}
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">File Management</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">File Details</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{% url 'students' %}" class="menu-link">
+                    <div data-i18n="Account">View Files</div>
+                  </a>
+                </li>
+                {% comment %}
+                <li class="menu-item">
+                  <a
+                    href="pages-account-settings-notifications.html"
+                    class="menu-link"
+                  >
+                    <div data-i18n="Notifications">Notifications</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="pages-account-settings-connections.html"
+                    class="menu-link"
+                  >
+                    <div data-i18n="Connections">Connections</div>
+                  </a>
+                </li>
+                {% endcomment %}
+              </ul>
+            </li>
+            {% comment %} <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                <div data-i18n="Authentications">Authentications</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a
+                    href="auth-login-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Login</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="auth-register-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Register</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="auth-forgot-password-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Forgot Password</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                <div data-i18n="Misc">Misc</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="pages-misc-error.html" class="menu-link">
+                    <div data-i18n="Error">Error</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="pages-misc-under-maintenance.html" class="menu-link">
+                    <div data-i18n="Under Maintenance">Under Maintenance</div>
+                  </a>
+                </li>
+              </ul>
+            </li> {% endcomment %}
+            {% endif %}
+  
+            {% if user.is_superuser %}
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Inventory Management</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Stock Details</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="#" class="menu-link">
+                    <div data-i18n="Account">Item Information</div>
+                  </a>
+                </li>
+                {% comment %}
+                <li class="menu-item">
+                  <a
+                    href="pages-account-settings-notifications.html"
+                    class="menu-link"
+                  >
+                    <div data-i18n="Notifications">Notifications</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="pages-account-settings-connections.html"
+                    class="menu-link"
+                  >
+                    <div data-i18n="Connections">Connections</div>
+                  </a>
+                </li>
+                {% endcomment %}
+              </ul>
+            </li>
+            {% comment %} <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                <div data-i18n="Authentications">Authentications</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a
+                    href="auth-login-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Login</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="auth-register-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Register</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="auth-forgot-password-basic.html"
+                    class="menu-link"
+                    target="_blank"
+                  >
+                    <div data-i18n="Basic">Forgot Password</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                <div data-i18n="Misc">Misc</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="pages-misc-error.html" class="menu-link">
+                    <div data-i18n="Error">Error</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="pages-misc-under-maintenance.html" class="menu-link">
+                    <div data-i18n="Under Maintenance">Under Maintenance</div>
+                  </a>
+                </li>
+              </ul>
+            </li> {% endcomment %}
+            {% endif %}
+  
+            <!-- Components -->
+            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li> -->
+            <!-- Cards -->
+            <!-- <li class="menu-item">
+                     <a href="cards-basic.html" class="menu-link">
+                         <i class="menu-icon tf-icons bx bx-collection"></i>
+                         <div data-i18n="Basic">Cards</div>
+                     </a>
+                     </li> -->
+            <!-- User interface -->
+            <!-- <li class="menu-item">
+                     <a href="javascript:void(0)" class="menu-link menu-toggle">
+                         <i class="menu-icon tf-icons bx bx-box"></i>
+                         <div data-i18n="User interface">User interface</div>
+                     </a>
+                     <ul class="menu-sub">
+                         <li class="menu-item">
+                             <a href="ui-accordion.html" class="menu-link">
+                                 <div data-i18n="Accordion">Accordion</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-alerts.html" class="menu-link">
+                                 <div data-i18n="Alerts">Alerts</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-badges.html" class="menu-link">
+                                 <div data-i18n="Badges">Badges</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-buttons.html" class="menu-link">
+                                 <div data-i18n="Buttons">Buttons</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-carousel.html" class="menu-link">
+                                 <div data-i18n="Carousel">Carousel</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-collapse.html" class="menu-link">
+                                 <div data-i18n="Collapse">Collapse</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-dropdowns.html" class="menu-link">
+                                 <div data-i18n="Dropdowns">Dropdowns</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-footer.html" class="menu-link">
+                                 <div data-i18n="Footer">Footer</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-list-groups.html" class="menu-link">
+                                 <div data-i18n="List Groups">List groups</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-modals.html" class="menu-link">
+                                 <div data-i18n="Modals">Modals</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-navbar.html" class="menu-link">
+                                 <div data-i18n="Navbar">Navbar</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-offcanvas.html" class="menu-link">
+                                 <div data-i18n="Offcanvas">Offcanvas</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-pagination-breadcrumbs.html" class="menu-link">
+                                 <div data-i18n="Pagination &amp; Breadcrumbs">Pagination &amp; Breadcrumbs</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-progress.html" class="menu-link">
+                                 <div data-i18n="Progress">Progress</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-spinners.html" class="menu-link">
+                                 <div data-i18n="Spinners">Spinners</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-tabs-pills.html" class="menu-link">
+                                 <div data-i18n="Tabs &amp; Pills">Tabs &amp; Pills</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-toasts.html" class="menu-link">
+                                 <div data-i18n="Toasts">Toasts</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-tooltips-popovers.html" class="menu-link">
+                                 <div data-i18n="Tooltips & Popovers">Tooltips &amp; popovers</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="ui-typography.html" class="menu-link">
+                                 <div data-i18n="Typography">Typography</div>
+                             </a>
+                         </li>
+                     </ul>
+                     </li> -->
+            <!-- Extended components -->
+            <!-- <li class="menu-item">
+                     <a href="javascript:void(0)" class="menu-link menu-toggle">
+                         <i class="menu-icon tf-icons bx bx-copy"></i>
+                         <div data-i18n="Extended UI">Extended UI</div>
+                     </a>
+                     <ul class="menu-sub">
+                         <li class="menu-item">
+                             <a href="extended-ui-perfect-scrollbar.html" class="menu-link">
+                                 <div data-i18n="Perfect Scrollbar">Perfect scrollbar</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="extended-ui-text-divider.html" class="menu-link">
+                                 <div data-i18n="Text Divider">Text Divider</div>
+                             </a>
+                         </li>
+                     </ul>
+                     </li>
+                     
+                     <li class="menu-item">
+                     <a href="icons-boxicons.html" class="menu-link">
+                         <i class="menu-icon tf-icons bx bx-crown"></i>
+                         <div data-i18n="Boxicons">Boxicons</div>
+                     </a>
+                     </li> -->
+            <!-- Forms & Tables -->
+            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li> -->
+            <!-- Forms -->
+            <!-- <li class="menu-item">
+                     <a href="javascript:void(0);" class="menu-link menu-toggle">
+                         <i class="menu-icon tf-icons bx bx-detail"></i>
+                         <div data-i18n="Form Elements">Form Elements</div>
+                     </a>
+                     <ul class="menu-sub">
+                         <li class="menu-item">
+                             <a href="forms-basic-inputs.html" class="menu-link">
+                                 <div data-i18n="Basic Inputs">Basic Inputs</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="forms-input-groups.html" class="menu-link">
+                                 <div data-i18n="Input groups">Input groups</div>
+                             </a>
+                         </li>
+                     </ul>
+                     </li>
+                     <li class="menu-item">
+                     <a href="javascript:void(0);" class="menu-link menu-toggle">
+                         <i class="menu-icon tf-icons bx bx-detail"></i>
+                         <div data-i18n="Form Layouts">Form Layouts</div>
+                     </a>
+                     <ul class="menu-sub">
+                         <li class="menu-item">
+                             <a href="form-layouts-vertical.html" class="menu-link">
+                                 <div data-i18n="Vertical Form">Vertical Form</div>
+                             </a>
+                         </li>
+                         <li class="menu-item">
+                             <a href="form-layouts-horizontal.html" class="menu-link">
+                                 <div data-i18n="Horizontal Form">Horizontal Form</div>
+                             </a>
+                         </li>
+                     </ul>
+                     </li> -->
+            <!-- Tables -->
+            <!-- <li class="menu-item">
+                     <a href="tables-basic.html" class="menu-link">
+                         <i class="menu-icon tf-icons bx bx-table"></i>
+                         <div data-i18n="Tables">Tables</div>
+                     </a>
+                     </li> -->
+            <!-- Misc -->
+            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+                     <li class="menu-item">
+                         <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="menu-link">
+                             <i class="menu-icon tf-icons bx bx-support"></i>
+                             <div data-i18n="Support">Support</div>
+                         </a>
+                     </li>
+                     <li class="menu-item">
+                         <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="menu-link">
+                             <i class="menu-icon tf-icons bx bx-file"></i>
+                             <div data-i18n="Documentation">Documentation</div>
+                         </a>
+                     </li> -->
+          </ul>
+        </aside>
+        <!-- / Menu -->
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+          <nav
+            style="position: sticky; top: 20px"
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar"
+          >
+            <div
+              class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"
+            >
+              <a
+                class="nav-item nav-link px-0 me-xl-4"
+                href="javascript:void(0)"
+              >
+                <i class="bx bx-menu bx-sm"></i>
+              </a>
+            </div>
+            <div
+              class="navbar-nav-right d-flex align-items-center"
+              id="navbar-collapse"
+            >
+              <!-- Search -->
+              <div class="navbar-nav align-items-center">
+                <div class="nav-item d-flex align-items-center">
+                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <input
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                  />
+                </div>
+              </div>
+              <!-- /Search -->
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+                <li class="nav-item lh-1 me-3" style="display: none">
+                  <a
+                    class="github-button"
+                    href="https://github.com/themeselection/sneat-html-admin-template-free"
+                    data-icon="octicon-star"
+                    data-size="large"
+                    data-show-count="true"
+                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
+                    >Star</a
+                  >
+                </li>
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a
+                    class="nav-link dropdown-toggle hide-arrow"
+                    href="javascript:void(0);"
+                    data-bs-toggle="dropdown"
+                  >
+                    <div class="avatar avatar-online">
+                      {% if profile_obj1 is not None %}
+                      <img
+                        src="{{profile_obj1.profile_pic.url}}"
+                        alt
+                        class="w-px-40 h-auto rounded-circle"
+                      />
+                      {% endif %}
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar avatar-online">
+                              {% if profile_obj1 is not None %}
+                              <img
+                                src="{{profile_obj1.profile_pic.url}}"
+                                alt
+                                class="w-px-40 h-auto rounded-circle"
+                              />
+                              {% endif %}
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <span class="fw-semibold d-block">
+                              {% if profile_obj1.first_name is not None %}
+                              {{profile_obj1.first_name}} {% endif %} 
+                              {% if profile_obj1.first_name is not None %}
+                              {{profile_obj1.last_name}} {% endif %}</span
+                            >
+                            <small class="text-muted"
+                              >{{user.get_username}}</small
+                            >
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'profile' %}">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">My Profile</span>
+                      </a>
+                    </li>
+                    {% comment %}
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="bx bx-cog me-2"></i>
+                        <span class="align-middle">Settings</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <span class="d-flex align-items-center align-middle">
+                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
+                          <span class="flex-grow-1 align-middle">Billing</span>
+                          <span
+                            class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20"
+                            >4</span
+                          >
+                        </span>
+                      </a>
+                    </li>
+                    {% endcomment %}
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'logout' %}">
+                        <i class="bx bx-power-off me-2"></i>
+                        <span class="align-middle">Log Out</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
+          </nav>
+          <!-- / Navbar -->
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              {% comment %}
+              <div class="row d-flex">
+                <div class="col-lg-12 mb-4 order-0">
+                  <div class="card">
+                    <div class="d-flex align-items-end row">
+                      <div class="col-sm-7">
+                        <div class="card-body">
+                          <h5 class="card-title text-primary">
+                            Welcome {{user.get_username}} 🎉
+                          </h5>
+                          <p class="mb-4">
+                            You have done <span class="fw-bold">72%</span> more
+                            sales today. Check your new badge in your profile.
+                          </p>
+                          <a
+                            href="javascript:;"
+                            class="btn btn-sm btn-outline-primary"
+                            >View Badges</a
+                          >
+                        </div>
+                      </div>
+                      <div class="col-sm-5 text-center text-sm-left">
+                        <div class="card-body pb-0 px-0 px-md-4">
+                          <img
+                            src="{% static 'assets/img/illustrations/man-with-laptop-light.png' %}"
+                            height="140"
+                            alt="View Badge User"
+                            data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                            data-app-light-img="illustrations/man-with-laptop-light.png"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endcomment %} {% block body %}{% endblock body %}
+              <!-- Footer -->
+              <footer class="content-footer footer bg-footer-theme">
+                <div
+                  class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"
+                >
+                  <div class="mb-2 mb-md-0">
+                    ©
+                    <script>
+                      document.write(new Date().getFullYear());
+                    </script>
+                    , made by
+                    <a href="#" target="_blank" class="footer-link fw-bolder"
+                      >Biswarup</a
+                    >
+                  </div>
+                  <div>
+                    <a href="#" class="footer-link me-4" target="_blank"
+                      >License</a
+                    >
+                    <a href="#" target="_blank" class="footer-link me-4"
+                      >Portfolio</a
+                    >
+                    <a href="#" target="_blank" class="footer-link me-4"
+                      >Documentation</a
+                    >
+                    <a href="#" target="_blank" class="footer-link me-4"
+                      >Support</a
+                    >
+                  </div>
+                </div>
+              </footer>
+              <!-- / Footer -->
+            </div>
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+
+    <!-- / Layout wrapper -->
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
+    <!-- endbuild -->
+    <!-- Vendors JS -->
+    <script src="{% static 'assets/vendor/libs/apex-charts/apexcharts.js' %}"></script>
+    <!-- Main JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <!-- Page JS -->
+    <script src="{% static 'assets/js/dashboards-analytics.js' %}"></script>
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script
+      async
+      defer
+      src="{% static 'https://buttons.github.io/buttons.js' %}"
+    ></script>
+  </body>
+</html>
