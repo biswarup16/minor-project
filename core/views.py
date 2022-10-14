@@ -456,7 +456,17 @@ def upload_document(request):
 # ------------------------------------------------------------------------------------------------
 # -----------------------------------File Management Module -------------------------------
 
+def not_found(request):
+    return render(request,'dashboard/not-found.html')
+
 @login_required(login_url='/')
 def view_file(request):
     file_obj = UploadFile.objects.all()
-    return render(request,'dashboard/view-file.html',{'file_obj':file_obj})
+    paginator = Paginator(file_obj,1)
+    # user_obj = User.objects.all().exclude(username=request.user)
+    # user_paginate = Paginator(user_obj,1)
+    
+    page_number = request.GET.get('page')
+    FIleDataFinal = paginator.get_page(page_number)
+    # UserDataFinal = user_paginate.get_page(page_number)
+    return render(request,'dashboard/view-file.html',{'file_obj':FIleDataFinal})

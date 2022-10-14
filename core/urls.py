@@ -43,5 +43,8 @@ urlpatterns = [
     # -------------------------------------File Management----------------------------------------------- 
     path('files/',view_file,name='view_file'),
     
+    path('under-mantainance/',not_found,name='not_found'),
+    
+    
     
 ] 

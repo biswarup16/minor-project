@@ -261,16 +261,17 @@
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a
-                    href="auth-login-basic.html"
+                    
                     class="menu-link"
                     target="_blank"
+                    href="{% url 'not_found' %}"
                   >
                     <div data-i18n="Basic">Login</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a
-                    href="auth-register-basic.html"
+                    href="{% url 'not_found' %}"
                     class="menu-link"
                     target="_blank"
                   >
@@ -279,7 +280,7 @@
                 </li>
                 <li class="menu-item">
                   <a
-                    href="auth-forgot-password-basic.html"
+                    href="{% url 'forgotpassword' %}"
                     class="menu-link"
                     target="_blank"
                   >
@@ -291,17 +292,17 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">Misc</div>
+                <div data-i18n="Misc">Notice</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="pages-misc-error.html" class="menu-link">
-                    <div data-i18n="Error">Error</div>
+                  <a href="{% url 'not_found' %}" class="menu-link">
+                    <div data-i18n="Error">View Notice</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-misc-under-maintenance.html" class="menu-link">
-                    <div data-i18n="Under Maintenance">Under Maintenance</div>
+                  <a href="{% url 'not_found' %}" class="menu-link">
+                    <div data-i18n="Under Maintenance">Upload Notice</div>
                   </a>
                 </li>
               </ul>
