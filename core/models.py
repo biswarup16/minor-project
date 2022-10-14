@@ -115,6 +115,23 @@ class AdmissionDocument(models.Model):
         return str(self.user)
 
     
+# -------------------------------- File Upload Models ----------------------------------    
+
+class UploadFile(models.Model):
+    title = models.CharField(max_length=255, blank=True,null=True)
+    description = models.TextField(blank=True,null=True)
+    document = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
     
+
+    class Meta:
+        verbose_name = ("Upload File")
+        verbose_name_plural = ("Upload Files")
+
+    def __str__(self):
+        return self.title
+
+   
+
     
     

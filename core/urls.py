@@ -40,4 +40,8 @@ urlpatterns = [
     # ------------------------------------------------------------------------------------ 
     path('upload-document/',upload_document,name='upload_document'),
     
+    # -------------------------------------File Management----------------------------------------------- 
+    path('files/',view_file,name='view_file'),
+    
+    
 ] 

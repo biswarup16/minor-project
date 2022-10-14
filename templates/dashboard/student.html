@@ -25,7 +25,7 @@
           <tbody>
           {% if profile_obj is not none %}
           
-          {% for profile_obj, user_obj in profile_obj %}
+          {% for profile_obj in profile_obj %}
           
             <tr>
               <td>
@@ -39,7 +39,7 @@
                     data-popup="tooltip-custom"
                     data-bs-placement="top"
                     class="avatar avatar-xs pull-up"
-                    title="{{profile_obj.user}}"
+                    {% comment %} title="{{profile_obj.user}}" {% endcomment %}
                   >
                     <img src="{{profile_obj.profile_pic.url}}" alt="Avatar" class="rounded-circle" />
                   </li>
@@ -83,6 +83,37 @@
         </table>
       </div>
     </div>
+  </div>
+
+  <div aria-label="Page navigation example" class="my-5 ">
+    <ul class="pagination ">
+      {% if profile_obj.has_previous %}
+      <li class="page-item ">
+        <a href="/students/?page={{ profile_obj.previous_page_number }}" class="page-link">Previous</a>
+      </li>
+      <li class="page-item ">
+        <a href="/students/?page=1" class="page-link">First</a>
+      </li>
+      
+      {% endif %}
+      <li class="page-item"><a class="page-link" href="#"><span class="current bg-primary text-white" style="padding: 10px 12px !important;">
+        Page {{ profile_obj.number }} of {{ profile_obj.paginator.num_pages }}.
+    </span></a></li>
+      {% comment %} <li class="page-item"><a class="page-link" href="#">3</a></li> {% endcomment %}
+      {% if profile_obj.has_next %}
+      <li class="page-item d-flex border border-secondary mx-2 px-2">
+        <a class="page-link mx-2" href="/students/?page={{ profile_obj.next_page_number }}">Next</a>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+        </svg>
+        
+      </li>
+      <li class="page-item border border-secondary">
+        <a class="page-link" href="/students/?page={{ profile_obj.paginator.num_pages  }}">Last</a>
+      </li>
+      {% endif %}
+
+    </ul>
   </div>
 {% endif %}
 

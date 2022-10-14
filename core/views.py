@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 import razorpay
 from adbu.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -252,9 +253,15 @@ def send_mail_after_refistration(email,token):
 @login_required(login_url='/')
 def student(request):
     profile_obj = Profile.objects.all().exclude(user=request.user)
-    user_obj = User.objects.all().exclude(username=request.user)
-    zippedList = zip(profile_obj,user_obj)
-    return render(request,'dashboard/student.html',{'profile_obj': zippedList})
+    paginator = Paginator(profile_obj,1)
+    # user_obj = User.objects.all().exclude(username=request.user)
+    # user_paginate = Paginator(user_obj,1)
+    
+    page_number = request.GET.get('page')
+    ProfileDataFinal = paginator.get_page(page_number)
+    # UserDataFinal = user_paginate.get_page(page_number)
+    # zippedList = zip(ProfileDataFinal)
+    return render(request,'dashboard/student.html',{'profile_obj': ProfileDataFinal})
 
 
 # ---------------------------Profile Details----------------------------------------
@@ -312,7 +319,7 @@ def prospectus_success(request):
     
     
 # -----------------------------------Send Admission Form -------------------------------
-
+@login_required(login_url='/')
 def send_admission_form(request):
     if request.method == 'POST':
         user = request.user
@@ -382,7 +389,7 @@ def send_admission_form(request):
 
 
 # -----------------------------------Update Student Details -------------------------------
- 
+@login_required(login_url='/')
 def update_student_detail(request,username):
     user_obj = User.objects.get(username=username)
     profile_obj = Profile.objects.get(user=user_obj.id)
@@ -408,7 +415,7 @@ def update_student_detail(request,username):
     return render(request,'dashboard/update-student-detail.html',{'profile_obj':profile_obj,'user_obj':user_obj})
     
 # -----------------------------------Delete Student -------------------------------
-
+@login_required(login_url='/')
 def delete_student(request,username):
     user_obj = User.objects.filter(username=username)
     query = user_obj.delete()
@@ -416,7 +423,7 @@ def delete_student(request,username):
         return redirect('/students/')
     
 # -----------------------------------upload Student documents form -------------------------------
-
+@login_required(login_url='/')
 def upload_document(request):
     if request.method == 'POST':
         user = request.POST.get('user')
@@ -443,3 +450,13 @@ def upload_document(request):
     # hsslc_doc = models.ImageField(upload_to='AdmissionDocument')
     # hsslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
     # caste_certificate = models.ImageField(upload_to='AdmissionDocument')
+
+
+
+# ------------------------------------------------------------------------------------------------
+# -----------------------------------File Management Module -------------------------------
+
+@login_required(login_url='/')
+def view_file(request):
+    file_obj = UploadFile.objects.all()
+    return render(request,'dashboard/view-file.html',{'file_obj':file_obj})
