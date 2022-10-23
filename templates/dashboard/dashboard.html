@@ -37,9 +37,16 @@
               {% endfor %}
 {% endif %}
 
+{% if profile_obj1.is_verified == 'False' %}
+<div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+  <strong class="text-center"> Please Verify Your Email</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
 {% if prospectus is not None %}
 
-{% if not user.is_staff and not user.is_superuser and prospectus.paid == 'False' and payment is null  %}
+{% if not user.is_staff and not user.is_superuser and prospectus.paid == 'False' and payment is null and profile_obj.is_verified == 'True'  %}
 
 <div class="card py-4 px-3 mt-5">
     <form action="" method="POST">
@@ -209,7 +216,7 @@
             required
           />
           <input
-            type="tel"
+            type="date"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
             id=""
@@ -813,23 +820,23 @@
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">Hslc Certificate</label>
-                <input class="form-control py-3 px-3 " name="hslc_doc" type="file" id="formFile" />
+                <input class="form-control py-3 px-3 " name="hslc_doc" type="file" id="formFile" required/>
               </div>
               <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Hslc Marksheet</label>
-                <input class="form-control py-3 px-3 " name="hslc_marksheet" type="file" id="formFileMultiple"  />
+                <input class="form-control py-3 px-3 " name="hslc_marksheet" type="file" id="formFileMultiple"  required/>
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">Hsslc Certificate</label>
-                <input class="form-control py-3 px-3 " name="hsslc_doc" type="file" id="formFile" />
+                <input class="form-control py-3 px-3 " name="hsslc_doc" type="file" id="formFile" required/>
               </div>
               <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Hsslc Marksheet</label>
-                <input class="form-control py-3 px-3 " name="hsslc_marksheet" type="file" id="formFileMultiple"  />
+                <input class="form-control py-3 px-3 " name="hsslc_marksheet" type="file" id="formFileMultiple"  required/>
               </div>
               <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Caste Certificate</label>
-                <input class="form-control py-3 px-3 " name="caste_certificate" type="file" id="formFileMultiple"  />
+                <input class="form-control py-3 px-3 " name="caste_certificate" type="file" id="formFileMultiple"  required/>
               </div>
               
   

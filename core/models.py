@@ -8,7 +8,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     auth_token = models.CharField(max_length=100)
-    profile_pic = models.ImageField(upload_to='profile',default='default_profile.jpg')
+    profile_pic = models.ImageField(upload_to='profile')
     is_verified = models.CharField(max_length=10,default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

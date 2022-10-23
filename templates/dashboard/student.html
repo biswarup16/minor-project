@@ -41,7 +41,9 @@
                     class="avatar avatar-xs pull-up"
                     {% comment %} title="{{profile_obj.user}}" {% endcomment %}
                   >
-                    <img src="{{profile_obj.profile_pic.url}}" alt="Avatar" class="rounded-circle" />
+                    {% if profile_obj.profile_pic.url is not none %}
+                    <img src="{{profile_obj.profile_pic.url}}" alt="Profile Picture" class="rounded-circle" />
+                    {% endif %}
                   </li>
                   
                 </ul>

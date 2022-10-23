@@ -1,18 +1,18 @@
-from calendar import month_name
-from operator import imod
 import os
+# from urllib import request
 from django.shortcuts import render,redirect
 from . models import *
 from django.contrib import messages
 import uuid
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.contrib.auth import authenticate,login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 import razorpay
 from adbu.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+from django.template.loader import render_to_string
 
 
 # Create your views here.
@@ -118,13 +118,15 @@ def change_password(request,token):
 
 def register(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        # username = request.POST.get('username')
         first_name = request.POST.get('firstname')
         last_name = request.POST.get('lastname')
         email = request.POST.get('email')
+        username = email
+        
         password = request.POST.get('password')
 
-        if len(username) and len(first_name) and len(last_name) and len(email) and len(password) != 0:
+        if len(username) and len(first_name) and len(last_name) and len(email) and len(password) > 0:
             
             try:
                 if User.objects.filter(username = username).first():
@@ -151,7 +153,8 @@ def register(request):
 
             except Exception as e:
                 print(e) 
-        messages.error(request,"Please fill the informations")
+        else:
+            messages.error(request,"Please fill the informations")
 
     return render(request,'auth/register.html')    
 
@@ -241,7 +244,7 @@ def error_page(request):
     return render(request,'auth/error.html')             
 
 def send_mail_after_refistration(email,token):
-    subject = "Your need's To Be verified"
+    subject = "Your Email Need's To Be Verified"
     message = f'Hii click the to verify your account http://127.0.0.1:8000/verify/{token}'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
@@ -252,15 +255,11 @@ def send_mail_after_refistration(email,token):
 
 @login_required(login_url='/')
 def student(request):
-    profile_obj = Profile.objects.all().exclude(user=request.user)
-    paginator = Paginator(profile_obj,1)
-    # user_obj = User.objects.all().exclude(username=request.user)
-    # user_paginate = Paginator(user_obj,1)
+    profile_obj = Profile.objects.all().exclude(user=request.user).order_by('-id')
+    paginator = Paginator(profile_obj,3)
     
     page_number = request.GET.get('page')
     ProfileDataFinal = paginator.get_page(page_number)
-    # UserDataFinal = user_paginate.get_page(page_number)
-    # zippedList = zip(ProfileDataFinal)
     return render(request,'dashboard/student.html',{'profile_obj': ProfileDataFinal})
 
 
@@ -276,16 +275,11 @@ def profile(request):
             # if len(profile_data.profile_pic) > 0:
                 # os.remove(profile_data.profile_pic.path)
             profile_data.profile_pic = request.FILES['profile']
-        # if 'image' in request.FILES:
-        # profile = request.FILE['profile']
+
         profile_data.save()
         first_name = request.POST.get('firstname')
         last_name = request.POST.get('lastname')
         email = request.POST.get('email')
-        
-        # user_obj = User.objects.all().filter(email=email)
-        # print(user_obj)
-        
        
         user_data = User.objects.filter(username=user).update(first_name=first_name,last_name=last_name,email=email)
         return redirect('/profile/')
@@ -426,30 +420,30 @@ def delete_student(request,username):
 @login_required(login_url='/')
 def upload_document(request):
     if request.method == 'POST':
-        user = request.POST.get('user')
-        if len(request.FILES) != 0:
+        try:
+            user = request.POST.get('user')
             hslc_doc = request.FILES['hslc_doc']
             hslc_marksheet = request.FILES['hslc_marksheet']
             hsslc_doc = request.FILES['hsslc_doc']
             hsslc_marksheet = request.FILES['hsslc_marksheet']
             caste_certificate = request.FILES['caste_certificate']
-    # print(user,hslc_doc,hslc_marksheet,hsslc_doc,hsslc_marksheet,caste_certificate)   
-        admission_document = AdmissionDocument(user=request.user,hslc_doc=hslc_doc,hslc_marksheet=hslc_marksheet,hsslc_doc=hsslc_doc,hsslc_marksheet=hsslc_marksheet,caste_certificate=caste_certificate)     
-        admission_document.save()
-        messages.success(request, 'Successfully Submitted Documents')
-        return redirect('/dashboard/') 
+            # if os.path.getsize(hslc_doc) and os.path.getsize(hslc_marksheet) and os.path.getsize(hsslc_doc) and os.path.getsize(hsslc_marksheet) and os.path.getsize(caste_certificate) > 0 :
+            admission_document = AdmissionDocument(user=request.user,hslc_doc=hslc_doc,hslc_marksheet=hslc_marksheet,hsslc_doc=hsslc_doc,hsslc_marksheet=hsslc_marksheet,caste_certificate=caste_certificate)     
+            admission_document.save()
+            messages.success(request, 'Successfully Submitted Documents')
+            return redirect('/dashboard/') 
+            
+        except:
+            messages.error(request, 'Please Fill The Fill Up The Form Correctly')
+            return redirect('/dashboard/') 
+                
     else:
         messages.error(request, 'Please Fill The Fill Up The Form Correctly')
         
         return redirect('/dashboard/') 
-        
+    return render(request,'dashboard/dashboard.html')    
 
-    #     user = models.ForeignKey(User,on_delete=models.CASCADE) 
-    # hslc_doc = models.ImageField(upload_to='AdmissionDocument')
-    # hslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
-    # hsslc_doc = models.ImageField(upload_to='AdmissionDocument')
-    # hsslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
-    # caste_certificate = models.ImageField(upload_to='AdmissionDocument')
+
 
 
 
@@ -462,9 +456,7 @@ def not_found(request):
 @login_required(login_url='/')
 def view_file(request):
     file_obj = UploadFile.objects.all()
-    paginator = Paginator(file_obj,1)
-    # user_obj = User.objects.all().exclude(username=request.user)
-    # user_paginate = Paginator(user_obj,1)
+    paginator = Paginator(file_obj,3)
     
     page_number = request.GET.get('page')
     FIleDataFinal = paginator.get_page(page_number)

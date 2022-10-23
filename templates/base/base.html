@@ -746,13 +746,20 @@
                     href="javascript:void(0);"
                     data-bs-toggle="dropdown"
                   >
-                    <div class="avatar avatar-online">
-                      {% if profile_obj1 is not None %}
+                    <div class="avatar avatar-online" >
+                      {% if profile_obj1.profile_pic %}
                       <img
                         src="{{profile_obj1.profile_pic.url}}"
                         alt
                         class="w-px-40 h-auto rounded-circle"
                       />
+                      {% else %}
+                              <img
+                                src="{% static 'images/profile.png' %}"
+                                alt
+                                class="w-px-40 h-auto rounded-circle"
+                              />
+                     
                       {% endif %}
                     </div>
                   </a>
@@ -762,9 +769,15 @@
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              {% if profile_obj1 is not None %}
+                              {% if profile_obj1.profile_pic %}
                               <img
                                 src="{{profile_obj1.profile_pic.url}}"
+                                alt
+                                class="w-px-40 h-auto rounded-circle"
+                              />
+                              {% else %}
+                              <img
+                                src="{% static 'images/profile.png' %}"
                                 alt
                                 class="w-px-40 h-auto rounded-circle"
                               />
