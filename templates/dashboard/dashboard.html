@@ -3,17 +3,19 @@
 {% load static %}
 
 {% block body %}
-<div class="row d-flex shadow-md">
-    <div class="col-lg-12  mb-4 order-0">
-        <div class="card">
-            <div class="d-flex align-items-end row">
+<div class="row d-flex shadow-md px-3" >
+    <div class="col-lg-12  mb-4 order-0" >
+        <div class="card ">
+            <div class="d-flex align-items-end row" style="background: url(https://picsum.photos/id/1043/800/600);
+            background-size: cover;
+            box-shadow: inset 0 0 0 2000px rgb(4 4 4 / 69%);">
                 <div class="col-sm-7">
                     <div class="card-body">
                         <h5 class="card-title text-primary">Welcome {{user.get_username}} 🎉</h5>
-                        <p class="mb-4">
+                        <p class="mb-4" style="color:wheat">
                             You have done <span class="fw-bold">72%</span> more sales today. Check your new badge in your profile.
                         </p>
-                        <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+                        <a href="{% url 'not_found' %}" class="btn btn-sm btn-outline-primary">View Notice</a>
                     </div>
                 </div>
                 <div class="col-sm-5 text-center text-sm-left">
@@ -35,9 +37,16 @@
               {% endfor %}
 {% endif %}
 
+{% if profile_obj1.is_verified == 'False' %}
+<div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+  <strong class="text-center"> Please Verify Your Email</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
 {% if prospectus is not None %}
 
-{% if not user.is_staff and not user.is_superuser and prospectus.paid == 'False' and payment is null  %}
+{% if not user.is_staff and not user.is_superuser and prospectus.paid == 'False' and payment is null and profile_obj.is_verified == 'True'  %}
 
 <div class="card py-4 px-3 mt-5">
     <form action="" method="POST">
@@ -207,7 +216,7 @@
             required
           />
           <input
-            type="tel"
+            type="date"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
             id=""
@@ -782,6 +791,63 @@
             ></script>
             <input type="hidden"  style="width:100%" custom="Hidden Element" class="btn btn-success px-5 py-3 mx-3" name="hidden">
         </form>
+
+
+{% endif %}
+
+
+
+
+
+{% if not user.is_staff and not user.is_superuser and prospectus.paid == 'True' and user.admission_form is None and admission_form  == 'True' and admission_document_form == 'False' %}
+<div class="card py-lg-4 px-lg-3 mt-2">
+  
+
+        <div class="px-3">
+          <div class="alert alert-primary px-lg-5 d-flex justify-content-center align-items-center" role="alert">
+              <span class="text-center">
+                  Upload Your Documents
+              </span>
+            </div>
+      </div>
+       
+          <form action="{% url 'upload_document' %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Username</label>
+                <input class="form-control py-3 px-3 " name="user" type="text" value="{{request.user}}" id="formFile" />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Hslc Certificate</label>
+                <input class="form-control py-3 px-3 " name="hslc_doc" type="file" id="formFile" required/>
+              </div>
+              <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Hslc Marksheet</label>
+                <input class="form-control py-3 px-3 " name="hslc_marksheet" type="file" id="formFileMultiple"  required/>
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Hsslc Certificate</label>
+                <input class="form-control py-3 px-3 " name="hsslc_doc" type="file" id="formFile" required/>
+              </div>
+              <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Hsslc Marksheet</label>
+                <input class="form-control py-3 px-3 " name="hsslc_marksheet" type="file" id="formFileMultiple"  required/>
+              </div>
+              <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Caste Certificate</label>
+                <input class="form-control py-3 px-3 " name="caste_certificate" type="file" id="formFileMultiple"  required/>
+              </div>
+              
+  
+              <div class="d-md-flex justify-content-center align-items-center">
+                <button  type="submit" style="width:100%" class="btn btn-primary px-5 py-3 mx-md-3">Submit</button>
+              </div>
+            </div>
+
+          </form>
+        
+</div> 
 
 
 {% endif %}

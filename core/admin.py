@@ -8,3 +8,8 @@ admin.site.register(Profile)
 admin.site.register(Prospectus)
 
 admin.site.register(AdmissionForm)
+
+admin.site.register(AdmissionDocument)
+
+admin.site.register(UploadFile)
+

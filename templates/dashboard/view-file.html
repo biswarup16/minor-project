@@ -1,0 +1,86 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+
+{% if user.is_superuser %}
+<div class="card">
+    <h5 class="card-header">Uploaded Files</h5>
+    <div class="card-body">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                  <th scope="col">S.No</th>
+                  <th scope="col">Ttle</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Document</th>
+                </tr>
+              </thead>
+        
+
+          <tbody>
+            {% for file_obj in file_obj %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{file_obj.title}}</td>
+                <td>{{file_obj.description |truncatechars:100}}</td>
+                <td><a href="{{file_obj.document.url}}">
+                    <button type="button" class="btn btn-success">
+                        <span class=""><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="height:20px">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          </span>&nbsp; View
+                      </button>
+                </a></td>
+            </tr>
+            {% endfor %}
+           </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div aria-label="Page navigation example" class="my-5">
+    <ul class="pagination  ">
+      {% if file_obj.has_previous %}
+      <li class="page-item ">
+        <a href="/files/?page={{ file_obj.previous_page_number }}" class="page-link">Previous</a>
+      </li>
+      <li class="page-item ">
+        <a href="/files/?page=1" class="page-link">First</a>
+      </li>
+      
+      {% endif %}
+      <div class="d-none d-md-flex">
+        <li class="page-item"><a class="page-link" href="#"><span class="current bg-primary text-white" style="padding: 10px 12px !important;">
+        Page {{ file_obj.number }} of {{ file_obj.paginator.num_pages }}.
+        </span></a>
+      </li>
+      </div>
+      {% comment %} <li class="page-item"><a class="page-link" href="#">3</a></li> {% endcomment %}
+      {% if file_obj.has_next %}
+      
+
+        <li class="page-item d-flex align-items-center border border-secondary mx-2 px-2">
+          <a class="page-link mx-md-2" href="/files/?page={{ file_obj.next_page_number }}">Next</a>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" mx-md-2" style="height:20px">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+          </svg>
+          
+        </li>
+        <li class="page-item border border-secondary">
+          <a class="page-link" href="/files/?page={{ file_obj.paginator.num_pages  }}">Last</a>
+        </li>
+
+      
+      {% endif %}
+
+    </ul>
+  </div>
+
+  
+{% endif %}
+
+{% endblock body %}

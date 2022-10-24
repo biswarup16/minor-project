@@ -1,17 +1,18 @@
-from calendar import month_name
-from operator import imod
 import os
+# from urllib import request
 from django.shortcuts import render,redirect
 from . models import *
 from django.contrib import messages
 import uuid
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.contrib.auth import authenticate,login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 import razorpay
 from adbu.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
 
 
 # Create your views here.
@@ -117,13 +118,15 @@ def change_password(request,token):
 
 def register(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        # username = request.POST.get('username')
         first_name = request.POST.get('firstname')
         last_name = request.POST.get('lastname')
         email = request.POST.get('email')
+        username = email
+        
         password = request.POST.get('password')
 
-        if len(username) and len(first_name) and len(last_name) and len(email) and len(password) != 0:
+        if len(username) and len(first_name) and len(last_name) and len(email) and len(password) > 0:
             
             try:
                 if User.objects.filter(username = username).first():
@@ -150,7 +153,8 @@ def register(request):
 
             except Exception as e:
                 print(e) 
-        messages.error(request,"Please fill the informations")
+        else:
+            messages.error(request,"Please fill the informations")
 
     return render(request,'auth/register.html')    
 
@@ -174,6 +178,11 @@ def dashboard(request):
     else:
         admission_form = 'False'   
        
+    admission_document = AdmissionDocument.objects.filter(user=request.user).first()
+    if admission_document is not None:
+        admission_document_form = 'True'
+    else:
+        admission_document_form = 'False'
     
     # admission_form = AdmissionForm.objects.get(user = user)
     # print(admission_query.user)
@@ -204,7 +213,7 @@ def dashboard(request):
     
     
     
-    return render(request,'dashboard/dashboard.html',{'profile_obj':profile_obj,'user':user,'prospectus':prospectus,'admission_form':admission_form,'admission_query':admission_query})    
+    return render(request,'dashboard/dashboard.html',{'profile_obj':profile_obj,'user':user,'prospectus':prospectus,'admission_form':admission_form,'admission_query':admission_query,'admission_document_form':admission_document_form})    
 
 # ------------------------Email Verification Code----------------------------  
 
@@ -235,7 +244,7 @@ def error_page(request):
     return render(request,'auth/error.html')             
 
 def send_mail_after_refistration(email,token):
-    subject = "Your need's To Be verified"
+    subject = "Your Email Need's To Be Verified"
     message = f'Hii click the to verify your account http://127.0.0.1:8000/verify/{token}'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
@@ -246,10 +255,12 @@ def send_mail_after_refistration(email,token):
 
 @login_required(login_url='/')
 def student(request):
-    profile_obj = Profile.objects.all().exclude(user=request.user)
-    user_obj = User.objects.all().exclude(username=request.user)
-    zippedList = zip(profile_obj,user_obj)
-    return render(request,'dashboard/student.html',{'profile_obj': zippedList})
+    profile_obj = Profile.objects.all().exclude(user=request.user).order_by('-id')
+    paginator = Paginator(profile_obj,3)
+    
+    page_number = request.GET.get('page')
+    ProfileDataFinal = paginator.get_page(page_number)
+    return render(request,'dashboard/student.html',{'profile_obj': ProfileDataFinal})
 
 
 # ---------------------------Profile Details----------------------------------------
@@ -264,16 +275,11 @@ def profile(request):
             # if len(profile_data.profile_pic) > 0:
                 # os.remove(profile_data.profile_pic.path)
             profile_data.profile_pic = request.FILES['profile']
-        # if 'image' in request.FILES:
-        # profile = request.FILE['profile']
+
         profile_data.save()
         first_name = request.POST.get('firstname')
         last_name = request.POST.get('lastname')
         email = request.POST.get('email')
-        
-        # user_obj = User.objects.all().filter(email=email)
-        # print(user_obj)
-        
        
         user_data = User.objects.filter(username=user).update(first_name=first_name,last_name=last_name,email=email)
         return redirect('/profile/')
@@ -307,7 +313,7 @@ def prospectus_success(request):
     
     
 # -----------------------------------Send Admission Form -------------------------------
-
+@login_required(login_url='/')
 def send_admission_form(request):
     if request.method == 'POST':
         user = request.user
@@ -367,7 +373,7 @@ def send_admission_form(request):
         post_graduation_percentage = request.POST.get('post_graduation_percentage')
         post_graduation_university = request.POST.get('post_graduation_university')
         
-        admission_form = AdmissionForm(user=user,full_name=full_name,father_name=father_name,father_occupation=father_occupation,father_number=father_number,mother_name=mother_name,mother_occupation=mother_occupation,mother_number=mother_number,garduian_name=garduian_name,garduian_number=garduian_number,nationality=nationality,dob=dob,gender=gender,blood_group=blood_group,caste=caste,religion=religion,hslc_board=hslc_board,hslc_passing_year=hslc_passing_year,hslc_reg=hslc_reg,hslc_roll=hslc_roll,hslc_total_marks=hslc_total_marks,hslc_marks=hslc_marks,hslc_percentage=hslc_percentage,hsslc_school=hsslc_school,hsslc_board=hsslc_board,hsslc_stream=hsslc_stream,hsslc_passing_year=hsslc_passing_year,hsslc_reg=hsslc_reg,hsslc_roll=hsslc_roll,hsslc_percentage=hsslc_percentage,graduation_course_name=graduation_course_name,graduation_board=graduation_board,graduation_course_type=graduation_course_type,graduation_year=graduation_year,graduation_reg=graduation_reg,graduation_roll=graduation_roll,graduation_total_marks=graduation_total_marks,graduation_marks=graduation_marks,graduation_percentage=graduation_percentage,graduation_university=graduation_university,post_graduation_course_name=post_graduation_course_name,post_graduation_board=post_graduation_board,post_graduation_course_type=post_graduation_course_type,post_graduation_year=post_graduation_year,post_graduation_reg=post_graduation_reg,post_graduation_roll=post_graduation_roll,post_graduation_total_marks=post_graduation_total_marks,post_graduation_marks=post_graduation_marks,post_graduation_percentage=post_graduation_percentage,post_graduation_university=post_graduation_university)
+        admission_form = AdmissionForm(user=user,full_name=full_name,father_name=father_name,father_occupation=father_occupation,father_number=father_number,mother_name=mother_name,mother_occupation=mother_occupation,mother_number=mother_number,garduian_name=garduian_name,garduian_number=garduian_number,nationality=nationality,dob=dob,gender=gender,blood_group=blood_group,caste=caste,religion=religion,hslc_board=hslc_board,hslc_passing_year=hslc_passing_year,hslc_reg=hslc_reg,hslc_roll=hslc_roll,hslc_total_marks=hslc_total_marks,hslc_marks=hslc_marks,hslc_percentage=hslc_percentage,hslc_school=hslc_school,hsslc_board=hsslc_board,hsslc_stream=hsslc_stream,hsslc_passing_year=hsslc_passing_year,hsslc_reg=hsslc_reg,hsslc_roll=hsslc_roll,hsslc_percentage=hsslc_percentage,hsslc_school=hsslc_school,graduation_course_name=graduation_course_name,graduation_board=graduation_board,graduation_course_type=graduation_course_type,graduation_year=graduation_year,graduation_reg=graduation_reg,graduation_roll=graduation_roll,graduation_total_marks=graduation_total_marks,graduation_marks=graduation_marks,graduation_percentage=graduation_percentage,graduation_university=graduation_university,post_graduation_course_name=post_graduation_course_name,post_graduation_board=post_graduation_board,post_graduation_course_type=post_graduation_course_type,post_graduation_year=post_graduation_year,post_graduation_reg=post_graduation_reg,post_graduation_roll=post_graduation_roll,post_graduation_total_marks=post_graduation_total_marks,post_graduation_marks=post_graduation_marks,post_graduation_percentage=post_graduation_percentage,post_graduation_university=post_graduation_university)
         admission_form.save()
         messages.success(request, 'Successfully Submitted Admission Form.')
     else:
@@ -377,7 +383,7 @@ def send_admission_form(request):
 
 
 # -----------------------------------Update Student Details -------------------------------
- 
+@login_required(login_url='/')
 def update_student_detail(request,username):
     user_obj = User.objects.get(username=username)
     profile_obj = Profile.objects.get(user=user_obj.id)
@@ -402,11 +408,64 @@ def update_student_detail(request,username):
         return redirect(request.path_info)
     return render(request,'dashboard/update-student-detail.html',{'profile_obj':profile_obj,'user_obj':user_obj})
     
-
+# -----------------------------------Delete Student -------------------------------
+@login_required(login_url='/')
 def delete_student(request,username):
     user_obj = User.objects.filter(username=username)
     query = user_obj.delete()
     if query:
         return redirect('/students/')
     
+# -----------------------------------upload Student documents form -------------------------------
+@login_required(login_url='/')
+def upload_document(request):
+    if request.method == 'POST':
+        try:
+            user = request.POST.get('user')
+            hslc_doc = request.FILES['hslc_doc']
+            hslc_marksheet = request.FILES['hslc_marksheet']
+            hsslc_doc = request.FILES['hsslc_doc']
+            hsslc_marksheet = request.FILES['hsslc_marksheet']
+            caste_certificate = request.FILES['caste_certificate']
+            # if os.path.getsize(hslc_doc) and os.path.getsize(hslc_marksheet) and os.path.getsize(hsslc_doc) and os.path.getsize(hsslc_marksheet) and os.path.getsize(caste_certificate) > 0 :
+            admission_document = AdmissionDocument(user=request.user,hslc_doc=hslc_doc,hslc_marksheet=hslc_marksheet,hsslc_doc=hsslc_doc,hsslc_marksheet=hsslc_marksheet,caste_certificate=caste_certificate)     
+            admission_document.save()
+            messages.success(request, 'Successfully Submitted Documents')
+            return redirect('/dashboard/') 
+            
+        except:
+            messages.error(request, 'Please Fill The Fill Up The Form Correctly')
+            return redirect('/dashboard/') 
+                
+    else:
+        messages.error(request, 'Please Fill The Fill Up The Form Correctly')
         
+        return redirect('/dashboard/') 
+    return render(request,'dashboard/dashboard.html')    
+
+
+
+
+
+# ------------------------------------------------------------------------------------------------
+# -----------------------------------File Management Module -------------------------------
+
+def not_found(request):
+    return render(request,'dashboard/not-found.html')
+
+@login_required(login_url='/')
+def view_file(request):
+    file_obj = UploadFile.objects.all()
+    paginator = Paginator(file_obj,3)
+    
+    page_number = request.GET.get('page')
+    FIleDataFinal = paginator.get_page(page_number)
+    # UserDataFinal = user_paginate.get_page(page_number)
+    return render(request,'dashboard/view-file.html',{'file_obj':FIleDataFinal})
+
+
+# ------------------------------------------------------------------------------------------------
+# ----------------------------------- Print ID Card -------------------------------
+@login_required(login_url='/')
+def print_id(request,username):
+    return render(request,'dashboard/print-id.html')

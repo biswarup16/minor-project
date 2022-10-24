@@ -37,4 +37,16 @@ urlpatterns = [
     
     # ------------------------------------------------------------------------------------ 
     path('delete-student/<str:username>/',delete_student,name='delete_student'),
+    # ------------------------------------------------------------------------------------ 
+    path('upload-document/',upload_document,name='upload_document'),
+    
+    # -------------------------------------File Management----------------------------------------------- 
+    path('files/',view_file,name='view_file'),
+    
+    path('under-mantainance/',not_found,name='not_found'),
+    
+    # ---------------------------------------Print ID Card--------------------------------------------- 
+    path('print-id-card/<str:username>/',print_id,name="print_id")
+    
+    
 ] 

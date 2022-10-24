@@ -8,7 +8,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     auth_token = models.CharField(max_length=100)
-    profile_pic = models.ImageField(upload_to='profile',default='default_profile.jpg')
+    profile_pic = models.ImageField(upload_to='profile')
     is_verified = models.CharField(max_length=10,default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -98,6 +98,40 @@ class AdmissionForm(models.Model):
         return self.full_name
     
     
+class AdmissionDocument(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE) 
+    hslc_doc = models.ImageField(upload_to='AdmissionDocument')
+    hslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
+    hsslc_doc = models.ImageField(upload_to='AdmissionDocument')
+    hsslc_marksheet = models.ImageField(upload_to='AdmissionDocument')
+    caste_certificate = models.ImageField(upload_to='AdmissionDocument')
+
+
+    class Meta:
+        verbose_name = ("AdmissionDocument")
+        verbose_name_plural = ("AdmissionDocuments")
+
+    def __str__(self):
+        return str(self.user)
+
     
+# -------------------------------- File Upload Models ----------------------------------    
+
+class UploadFile(models.Model):
+    title = models.CharField(max_length=255, blank=True,null=True)
+    description = models.TextField(blank=True,null=True)
+    document = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+
+    class Meta:
+        verbose_name = ("Upload File")
+        verbose_name_plural = ("Upload Files")
+
+    def __str__(self):
+        return self.title
+
+   
+
     
     
