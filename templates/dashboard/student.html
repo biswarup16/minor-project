@@ -41,7 +41,7 @@
                     class="avatar avatar-xs pull-up"
                     {% comment %} title="{{profile_obj.user}}" {% endcomment %}
                   >
-                    {% if profile_obj.profile_pic.url is not none %}
+                    {% if profile_obj.profile_pic.url %}
                     <img src="{{profile_obj.profile_pic.url}}" alt="Profile Picture" class="rounded-circle" />
                     {% endif %}
                   </li>
@@ -60,21 +60,21 @@
                   </button>
                   <div class="dropdown-menu">
                     {% if user.is_superuser %}
-                    <a class="dropdown-item" href="#"
-                      ><i class="bx bx-trash me-1"></i> Print Id</a
+                    <a class="dropdown-item" href="/print-id-card/{{profile_obj.user}}/"
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #71dd37;transform: ;msFilter:;"><path d="M19 7h-1V2H6v5H5c-1.654 0-3 1.346-3 3v7c0 1.103.897 2 2 2h2v3h12v-3h2c1.103 0 2-.897 2-2v-7c0-1.654-1.346-3-3-3zM8 4h8v3H8V4zm8 16H8v-4h8v4zm4-3h-2v-3H6v3H4v-7c0-.551.449-1 1-1h14c.552 0 1 .449 1 1v7z"></path><path d="M14 10h4v2h-4z"></path></svg> Print Id</a
                     >
                     {% endif %}
                     <a class="dropdown-item" href="/update-student-detail/{{profile_obj.user}}/"
-                      ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffab00;transform: ;msFilter:;"><path d="m7 17.013 4.413-.015 9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583v4.43zM18.045 4.458l1.589 1.583-1.597 1.582-1.586-1.585 1.594-1.58zM9 13.417l6.03-5.973 1.586 1.586-6.029 5.971L9 15.006v-1.589z"></path><path d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2z"></path></svg> Edit</a
                     >
                     <a class="dropdown-item" href="/delete-student/{{profile_obj.user}}/"
-                      ><i class="bx bx-trash me-1"></i> Delete</a
+                      ><i class="bx bx-trash me-1" style="color:#ff3e1d"></i> Delete</a
                     >
                   </div>
                 </div>
               </td>
             </tr>
-           
+            
             
             {% endfor %}
             

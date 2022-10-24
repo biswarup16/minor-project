@@ -462,3 +462,10 @@ def view_file(request):
     FIleDataFinal = paginator.get_page(page_number)
     # UserDataFinal = user_paginate.get_page(page_number)
     return render(request,'dashboard/view-file.html',{'file_obj':FIleDataFinal})
+
+
+# ------------------------------------------------------------------------------------------------
+# ----------------------------------- Print ID Card -------------------------------
+@login_required(login_url='/')
+def print_id(request,username):
+    return render(request,'dashboard/print-id.html')

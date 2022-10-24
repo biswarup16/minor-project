@@ -13,10 +13,10 @@
     <div class="card-body">
       <div class="d-flex align-items-start align-items-sm-center gap-4">
         <img
-          {% if profile_obj.profile_pic is not None %}
+          {% if profile_obj.profile_pic  %}
           src="{{profile_obj.profile_pic.url}}"
           {% endif %}
-          alt="user-avatar"
+          alt="Picture"
           class="d-block rounded"
           height="100"
           width="100"
@@ -30,7 +30,7 @@
               type="file"
               id="upload"
               name="profile"
-              {% if profile_obj.profile_pic is not None %}
+              {% if profile_obj.profile_pic  %}
               value={{profile_obj.profile_pic.url}}
               {% endif %}
               class="account-file-input"
