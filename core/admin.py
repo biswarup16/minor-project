@@ -13,3 +13,13 @@ admin.site.register(AdmissionDocument)
 
 admin.site.register(UploadFile)
 
+
+
+@admin.register(Settings)
+class SettingsAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    def has_add_permission(self, request):
+        if(self.model.objects.count() == 0):
+            return True
+        else:
+            return False

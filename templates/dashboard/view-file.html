@@ -11,12 +11,13 @@
             <thead>
                 <tr>
                   <th scope="col">S.No</th>
-                  <th scope="col">Ttle</th>
+                  <th scope="col">Title</th>
                   <th scope="col">Description</th>
                   <th scope="col">Document</th>
                 </tr>
               </thead>
         
+              
 
           <tbody>
             {% for file_obj in file_obj %}
@@ -24,8 +25,8 @@
                 <th scope="row">{{forloop.counter}}</th>
                 <td>{{file_obj.title}}</td>
                 <td>{{file_obj.description |truncatechars:100}}</td>
-                <td><a href="{{file_obj.document.url}}">
-                    <button type="button" class="btn btn-success">
+                <td><a target="_blank" href="{{file_obj.document.url}}">
+                    <button type="button" class="btn btn-success" id="view-button">
                         <span class=""><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="height:20px">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -41,6 +42,8 @@
       </div>
     </div>
   </div>
+
+
 
   <div aria-label="Page navigation example" class="my-5">
     <ul class="pagination  ">
@@ -84,3 +87,9 @@
 {% endif %}
 
 {% endblock body %}
+
+{% block script %}
+
+let a = document.getElementById('view-button').onClick = "alert('Hii')"
+
+{% endblock script %}

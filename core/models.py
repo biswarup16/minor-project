@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 class Profile(models.Model):
@@ -131,6 +132,28 @@ class UploadFile(models.Model):
     def __str__(self):
         return self.title
 
+# ----------------------------------------Settings-----------------------------------------
+class Settings(models.Model):
+    name = models.CharField('Name of the Institution',max_length=255, blank=True,null=True)
+    logo = models.ImageField('Logo',upload_to='Logo', blank=True,null=True)
+    favicon = models.ImageField('Favicon',upload_to='Logo', blank=True,null=True)
+    address = models.TextField('Address', blank=True,null=True)
+    pin_code = models.CharField('Pin Code',max_length=6, blank=True,null=True)
+    phone1 = models.CharField('Contact Number 1',max_length=12, blank=True,null=True)
+    phone2 = models.CharField('Contact Number 2',max_length=12, blank=True,null=True)
+    class Meta:
+        verbose_name = ("Setting")
+        verbose_name_plural = ("Settings")
+    def __str__(self):
+        return str(self.name)    
+    
+
+  
+    
+
+   
+    
+    
    
 
     

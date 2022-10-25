@@ -67,7 +67,7 @@
                     <a class="dropdown-item" href="/update-student-detail/{{profile_obj.user}}/"
                       ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffab00;transform: ;msFilter:;"><path d="m7 17.013 4.413-.015 9.632-9.54c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.756-.756-2.075-.752-2.825-.003L7 12.583v4.43zM18.045 4.458l1.589 1.583-1.597 1.582-1.586-1.585 1.594-1.58zM9 13.417l6.03-5.973 1.586 1.586-6.029 5.971L9 15.006v-1.589z"></path><path d="M5 21h14c1.103 0 2-.897 2-2v-8.668l-2 2V19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2z"></path></svg> Edit</a
                     >
-                    <a class="dropdown-item" href="/delete-student/{{profile_obj.user}}/"
+                    <a class="dropdown-item" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#staticBackdrop" 
                       ><i class="bx bx-trash me-1" style="color:#ff3e1d"></i> Delete</a
                     >
                   </div>
@@ -86,6 +86,33 @@
       </div>
     </div>
   </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Are You Sure</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      {% comment %} <div class="modal-body">
+        ...
+      </div> {% endcomment %}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        {% if profile_obj is not none %}
+          
+          {% for profile_obj in profile_obj %}
+        {% if forloop.first %}
+        <a href="/delete-student/{{profile_obj.user}}/"> <button type="button" class="btn btn-danger">Delete</button></a>
+        {% endif %}
+        {% endfor %}
+            
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 
   <div aria-label="Page navigation example" class="my-5 ">
     <ul class="pagination ">
