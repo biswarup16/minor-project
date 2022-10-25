@@ -46,7 +46,12 @@ urlpatterns = [
     path('under-mantainance/',not_found,name='not_found'),
     
     # ---------------------------------------Print ID Card--------------------------------------------- 
-    path('print-id-card/<str:username>/',print_id,name="print_id")
+    path('print-id-card/<str:username>/',print_id,name="print_id"),
     
+    
+    # -------------------------------------Live Search Student----------------------------------------------- 
+    
+    path('search-student/',search_student,name="search_student")
+
     
 ] 

@@ -66,6 +66,9 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{% static 'assets/js/config.js' %}"></script>
     
+    {% comment %} HTMX  {% endcomment %}
+    <script src="https://unpkg.com/htmx.org@1.8.2"></script>
+    <style>{% block styles %}{% endblock styles %}</style>
 
   </head>
 
@@ -714,17 +717,26 @@
               id="navbar-collapse"
             >
               <!-- Search -->
-              <div class="navbar-nav align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-                  <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
+              <form  method="post">
+                {% csrf_token %}
+                <div class="navbar-nav align-items-center">
+                  <div class="nav-item d-flex align-items-center">
+                    <i class="bx bx-search fs-4 lh-0"></i>
+                    
+                    <input
+                      type="text"
+                      class="form-control border-0 shadow-none"
+                      placeholder="Search..."
+                      aria-label="Search..."
+                      name="student"
+                      {% if user.is_superuser %}
+                      hx-post="{% url 'search_student' %}" hx-target="#searchList" hx-trigger="keyup"
+                      {% endif %}
+                    />
+                    
+                  </div>
                 </div>
-              </div>
+              </form>
               <!-- /Search -->
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
@@ -883,7 +895,11 @@
                   </div>
                 </div>
               </div>
-              {% endcomment %} {% block body %}{% endblock body %}
+              {% endcomment %}
+              <div id="searchList">
+                {% include 'base/search.html' %}
+              </div>
+              {% block body %}{% endblock body %}
               <!-- Footer -->
               <footer class="content-footer footer bg-footer-theme">
                 <div

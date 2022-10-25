@@ -4,11 +4,17 @@
 {% block title %}Print ID{% endblock title %}
 
 {% block styles %}
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 771px) {
     .id-card {
-      display:none;
+      display:none !important;
     }
   }
+
+@media screen and (min-width: 500px) {
+    .large-device {
+      display:none !important;
+    }
+  }  
 {% endblock styles %}
 
 {% block body %}
@@ -81,6 +87,9 @@
 
             </div>
 
+        </div>
+        <div class="large-device">
+            <h5 class="text-primary text-center">For Now! This Feature is Only Available on Larger Devices</h5>
         </div>
     </div>
 </div>

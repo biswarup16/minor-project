@@ -469,3 +469,16 @@ def view_file(request):
 @login_required(login_url='/')
 def print_id(request,username):
     return render(request,'dashboard/print-id.html')
+
+
+# ------------------------------------------------------------------------------------------------
+# ----------------------------------- Live Search Student -------------------------------
+@login_required(login_url='/')
+def search_student(request):
+    student_name = request.POST.get('student')
+    print(student_name)
+    if len(student_name) > 0:
+        student_obj = Profile.objects.filter(first_name__icontains=student_name)[:5]
+        return render(request,'base/search.html',{'student_obj':student_obj})
+    else:
+        return render(request,'base/search.html',{'student_obj':None})
