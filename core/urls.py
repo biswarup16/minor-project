@@ -51,7 +51,19 @@ urlpatterns = [
     
     # -------------------------------------Live Search Student----------------------------------------------- 
     
-    path('search-student/',search_student,name="search_student")
+    path('search-student/',search_student,name="search_student"),
+    
+    # -------------------------------------Selected Students-----------------------------------------------
+    
+    path('selected-students/',selected_students,name="selected_students"),
+    
+    # -------------------------------------Selected Students Details Page-----------------------------------------------
+    # path('selected-students/<str:course>/',selected_students,name="selected_students_details"),
+    
+    path('selected-students-details/<str:id>',selected_students_details,name="selected_students_details"),
+    
+     
+    
 
     
 ] 

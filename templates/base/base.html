@@ -236,6 +236,11 @@
                     <div data-i18n="Account">Registered Students</div>
                   </a>
                 </li>
+                <li class="menu-item">
+                  <a href="{% url 'selected_students' %}" class="menu-link">
+                    <div data-i18n="Account">Selected Students</div>
+                  </a>
+                </li>
                 {% comment %}
                 <li class="menu-item">
                   <a
@@ -732,6 +737,7 @@
                       {% if user.is_superuser %}
                       hx-post="{% url 'search_student' %}" hx-target="#searchList" hx-trigger="keyup"
                       {% endif %}
+                      onkeypress="return event.keyCode != 13;"
                     />
                     
                   </div>
@@ -901,7 +907,8 @@
               </div>
               {% block body %}{% endblock body %}
               <!-- Footer -->
-              <footer class="content-footer footer bg-footer-theme">
+              <footer class="content-footer footer bg-footer-theme" style="position: fixed;
+              bottom: 0;">
                 <div
                   class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"
                 >
@@ -912,7 +919,7 @@
                     </script>
                     , made by
                     <a href="#" target="_blank" class="footer-link fw-bolder"
-                      >Biswarup</a
+                      >Biswarup </a
                     >
                   </div>
                   <div>
@@ -966,6 +973,7 @@
     ></script>
     <script>
       {% block script %}{% endblock script %}
+     
     </script>
   </body>
 </html>

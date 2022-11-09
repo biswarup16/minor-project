@@ -333,6 +333,8 @@ def send_admission_form(request):
         caste = request.POST.get('caste')
         religion = request.POST.get('religion')
         
+        course = request.POST.get('course')
+        
         hslc_board = request.POST.get('hslc_board')
         hslc_passing_year = request.POST.get('hslc_passing_year')
         hslc_reg = request.POST.get('hslc_reg')
@@ -373,7 +375,7 @@ def send_admission_form(request):
         post_graduation_percentage = request.POST.get('post_graduation_percentage')
         post_graduation_university = request.POST.get('post_graduation_university')
         
-        admission_form = AdmissionForm(user=user,full_name=full_name,father_name=father_name,father_occupation=father_occupation,father_number=father_number,mother_name=mother_name,mother_occupation=mother_occupation,mother_number=mother_number,garduian_name=garduian_name,garduian_number=garduian_number,nationality=nationality,dob=dob,gender=gender,blood_group=blood_group,caste=caste,religion=religion,hslc_board=hslc_board,hslc_passing_year=hslc_passing_year,hslc_reg=hslc_reg,hslc_roll=hslc_roll,hslc_total_marks=hslc_total_marks,hslc_marks=hslc_marks,hslc_percentage=hslc_percentage,hslc_school=hslc_school,hsslc_board=hsslc_board,hsslc_stream=hsslc_stream,hsslc_passing_year=hsslc_passing_year,hsslc_reg=hsslc_reg,hsslc_roll=hsslc_roll,hsslc_percentage=hsslc_percentage,hsslc_school=hsslc_school,graduation_course_name=graduation_course_name,graduation_board=graduation_board,graduation_course_type=graduation_course_type,graduation_year=graduation_year,graduation_reg=graduation_reg,graduation_roll=graduation_roll,graduation_total_marks=graduation_total_marks,graduation_marks=graduation_marks,graduation_percentage=graduation_percentage,graduation_university=graduation_university,post_graduation_course_name=post_graduation_course_name,post_graduation_board=post_graduation_board,post_graduation_course_type=post_graduation_course_type,post_graduation_year=post_graduation_year,post_graduation_reg=post_graduation_reg,post_graduation_roll=post_graduation_roll,post_graduation_total_marks=post_graduation_total_marks,post_graduation_marks=post_graduation_marks,post_graduation_percentage=post_graduation_percentage,post_graduation_university=post_graduation_university)
+        admission_form = AdmissionForm(user=user,full_name=full_name,father_name=father_name,father_occupation=father_occupation,father_number=father_number,mother_name=mother_name,mother_occupation=mother_occupation,mother_number=mother_number,garduian_name=garduian_name,garduian_number=garduian_number,nationality=nationality,dob=dob,gender=gender,blood_group=blood_group,caste=caste,religion=religion,course=course,hslc_board=hslc_board,hslc_passing_year=hslc_passing_year,hslc_reg=hslc_reg,hslc_roll=hslc_roll,hslc_total_marks=hslc_total_marks,hslc_marks=hslc_marks,hslc_percentage=hslc_percentage,hslc_school=hslc_school,hsslc_board=hsslc_board,hsslc_stream=hsslc_stream,hsslc_passing_year=hsslc_passing_year,hsslc_reg=hsslc_reg,hsslc_roll=hsslc_roll,hsslc_percentage=hsslc_percentage,hsslc_school=hsslc_school,graduation_course_name=graduation_course_name,graduation_board=graduation_board,graduation_course_type=graduation_course_type,graduation_year=graduation_year,graduation_reg=graduation_reg,graduation_roll=graduation_roll,graduation_total_marks=graduation_total_marks,graduation_marks=graduation_marks,graduation_percentage=graduation_percentage,graduation_university=graduation_university,post_graduation_course_name=post_graduation_course_name,post_graduation_board=post_graduation_board,post_graduation_course_type=post_graduation_course_type,post_graduation_year=post_graduation_year,post_graduation_reg=post_graduation_reg,post_graduation_roll=post_graduation_roll,post_graduation_total_marks=post_graduation_total_marks,post_graduation_marks=post_graduation_marks,post_graduation_percentage=post_graduation_percentage,post_graduation_university=post_graduation_university)
         admission_form.save()
         messages.success(request, 'Successfully Submitted Admission Form.')
     else:
@@ -475,10 +477,38 @@ def print_id(request,username):
 # ----------------------------------- Live Search Student -------------------------------
 @login_required(login_url='/')
 def search_student(request):
-    student_name = request.POST.get('student')
-    print(student_name)
-    if len(student_name) > 0:
-        student_obj = Profile.objects.filter(first_name__icontains=student_name)[:5]
-        return render(request,'base/search.html',{'student_obj':student_obj})
-    else:
-        return render(request,'base/search.html',{'student_obj':None})
+    try:
+        student_name = request.POST.get('student')
+        if len(student_name) > 0:
+            student_obj = Profile.objects.filter(first_name__icontains=student_name)[:5]
+            return render(request,'base/search.html',{'student_obj':student_obj})
+        else:
+            return render(request,'base/search.html',{'student_obj':None})
+    except Exception as e:
+        print(e)
+        
+        
+# ------------------------------------------------------------------------------------------------
+# ----------------------------------- Selected Students -------------------------------     
+
+@login_required(login_url='/')
+def selected_students(request):
+    try:
+        if request.method == 'POST':
+            course = request.POST.get('course')
+            student = AdmissionForm.objects.filter(is_verified='True').filter(course__icontains=course)
+            context={'student':student}
+            return render(request,'dashboard/selected-students.html',context)
+        else:
+            student = AdmissionForm.objects.filter(is_verified='True')
+            context={'student':student}
+            return render(request,'dashboard/selected-students.html',context)
+    except:
+        print("Something Went Wrong")
+
+
+
+def selected_students_details(request,id):
+    return render(request,'dashboard/selected-students-details.html')
+   
+

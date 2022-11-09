@@ -32,7 +32,12 @@ class Prospectus(models.Model):
     def __str__(self):
         return str(self.user)
     
-    
+
+IS_VERIFIED = [
+    ('True', 'True'),
+    ('False', 'False'),
+]
+
 class AdmissionForm(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE) 
     full_name = models.CharField(max_length=200)
@@ -50,6 +55,8 @@ class AdmissionForm(models.Model):
     blood_group = models.CharField(max_length=17)
     caste = models.CharField(max_length=17)
     religion = models.CharField(max_length=17)
+    
+    course = models.CharField(max_length=30,default=" ",null=True,blank=True)
     
     
     hslc_board = models.CharField(max_length=17,default=" ",null=True,blank=True)
@@ -92,7 +99,9 @@ class AdmissionForm(models.Model):
     post_graduation_percentage = models.CharField(max_length=17,default=" ",null=True,blank=True)
     post_graduation_university = models.CharField(max_length=50,default=" ",null=True,blank=True)
     
-    is_verified = models.CharField(max_length=10,default='False',null=True,blank=True)
+    is_verified = models.CharField(max_length=10,
+        choices=IS_VERIFIED,
+        default=False)
     
     
     def __str__(self):
