@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 
 # Create your models here.
@@ -154,7 +156,20 @@ class Settings(models.Model):
         verbose_name = ("Setting")
         verbose_name_plural = ("Settings")
     def __str__(self):
-        return str(self.name)    
+        return str(self.name)   
+    
+    
+# -------------------------------- Notice Models ----------------------------------    
+
+class Notice(models.Model):
+    title = models.CharField('Title',max_length=255)
+    date_field = models.DateField('Date',default=timezone.now)
+    document = models.FileField(upload_to='documents/', blank=True,null=True)
+    
+    def __str__(self):
+        return self.title
+    
+ 
     
 
   

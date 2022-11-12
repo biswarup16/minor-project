@@ -42,6 +42,8 @@ urlpatterns = [
     
     # -------------------------------------File Management----------------------------------------------- 
     path('files/',view_file,name='view_file'),
+    path('upload-file/',upload_file,name='upload_file'),
+    
     
     path('under-mantainance/',not_found,name='not_found'),
     
@@ -57,11 +59,13 @@ urlpatterns = [
     
     path('selected-students/',selected_students,name="selected_students"),
     
-    # -------------------------------------Selected Students Details Page-----------------------------------------------
-    # path('selected-students/<str:course>/',selected_students,name="selected_students_details"),
-    
     path('selected-students-details/<str:id>',selected_students_details,name="selected_students_details"),
     
+    # -------------------------------------Notice -----------------------------------------------
+    
+    path('upload-notice/',upload_notice,name="upload_notice"),
+    
+    path('view-all-notices/',all_notice,name="all_notice")
      
     
 

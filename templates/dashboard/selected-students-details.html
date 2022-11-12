@@ -8,220 +8,251 @@
 
 
 <div class="container-fluid">
+    {% if student %}
     <div class="row ">
 
-       <div class="col-lg-4 p-2">
-            <div class="row">
-                <div class="col">
-                    <div class=" card p-2">
+        <div class="col-lg-4 p-2">
+             <div class="row">
+                 <div class="col">
+                     <div class=" card p-2">
+ 
+                         <div class="d-flex justify-content-center align-items-center flex-column">
+                             <img style="height:100px;width:100px;border-radius:50%;"
+                             {% if profile.profile_pic %}
+                             src="{{profile.profile_pic.url}}"
+                             {% endif %}
+                             alt="">
+                             <p style="text-transform:capitalize;font-weight:bold">{{student.full_name}}</p>
+                         </div>
+                         
+                         <div class="px-lg-5">
+                             <p style="text-transform:capitalize;font-weight:bold">Stdent Id : DC2020BCA0055 </p>
+                             <p style="text-transform:capitalize;font-weight:bold">Course : {{student.course}} </p>
+                             <p style="text-transform:capitalize;font-weight:bold">Email : {{student.user}} </p>
+                         </div>
+         
+         
+                     </div>
+                 </div>
+ 
+                 <div class="col py-4">
+                     <div class=" card py-5">
+                         <div class="px-5">
+                             <h3 class="text-primary mb-4 " style="border-bottom: 2px solid #ffab00;">Supported Documents</h3>
+                         </div>
+ 
+                         <div class="row">
 
-                        <div class="d-flex justify-content-center align-items-center flex-column">
-                            <img style="height:100px;border:5px solid white;border-radius:50%;" src="https://demo.libkart.io/static/assets/img/avatars/7.png" alt="">
-                            <p style="text-transform:capitalize;font-weight:bold">Biswarup Das</p>
-                        </div>
-                        
-                        <div class="px-lg-5">
-                            <p style="text-transform:capitalize;font-weight:bold">Stdent Id : DC2020BCA0055 </p>
-                            <p style="text-transform:capitalize;font-weight:bold">Course : BCA </p>
-                            <p style="text-transform:capitalize;font-weight:bold">Email : biswarupdaslyf@gmail.com </p>
-                        </div>
-        
-        
-                    </div>
-                </div>
-
-                <div class="col py-4">
-                    <div class=" card py-5">
-                        <div class="px-5">
-                            <h3 class="text-primary mb-4 " style="border-bottom: 2px solid #ffab00;">Supported Documents</h3>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" style="height:150px" alt="">
-                                <p>Hslc Marksheet</p>
+                             {% if document %}
+                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
+                                <img 
+                                {% if document.hslc_doc %}
+                                src="{{document.hslc_doc.url}}"
+                                {% endif %}
+                                style="height:150px;width:150px" alt="">
+                                <p>HSLC Document</p>
                             </div>
                             
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" style="height:150px" alt="">
-                                <p>Hslc Marksheet</p>
+                                <img 
+                                {% if document.hslc_marksheet %}
+                                src="{{document.hslc_marksheet.url}}"
+                                {% endif %}
+                                style="height:150px;width:150px" alt="">                                <p>HSLC Marksheet</p>
                             </div>
 
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" style="height:150px" alt="">
-                                <p>Hslc Marksheet</p>
+                                <img 
+                                {% if document.hsslc_doc %}
+                                src="{{document.hsslc_doc.url}}"
+                                {% endif %}
+                                style="height:150px;width:150px" alt="">                                <p>HSSLC Document</p>
                             </div>
 
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" style="height:150px" alt="">
-                                <p>Hslc Marksheet</p>
+                                <img 
+                                {% if document.hsslc_marksheet %}
+                                src="{{document.hsslc_marksheet.url}}"
+                                {% endif %}
+                                style="height:150px;width:150px" alt="">                                    <p>HSSLC Marksheet</p>
                             </div>
 
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" style="height:150px" alt="">
-                                <p>Hslc Marksheet</p>
+                                <img 
+                                {% if document.caste_certificate %}
+                                src="{{document.caste_certificate.url}}"
+                                {% endif %}
+                                style="height:150px;width:150px" alt="">                                 <p>CASTE CERTIFICATE</p>
                             </div>
-
-                        </div>
-
-                        
+                             {% endif %}
+ 
+                         </div>
+ 
+                         
+         
+                     </div>
+                 </div>
+ 
+             </div>
+        </div>
+ 
+         {% comment %} --------------------------------  {% endcomment %}
+ 
         
-                    </div>
-                </div>
-
-            </div>
-       </div>
-
-        {% comment %} --------------------------------  {% endcomment %}
-
-       
-        <div class="col-lg-8  p-2">
-            <div class="card p-5">
-                <h3 class="text-primary mb-4" style="border-bottom: 2px solid #ffab00;">General Information</h3>
-
-                <div class="row">
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Full Name : </span> Manju Das</p>
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father's name : </span> Ramchandra Das</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father occupation : </span> Business</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father number : </span> 9862285964</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Mother name : </span> Geetanjali Das</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Mother occupation : </span> house wife</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Mother number : </span>8787645342</p>
-
-
-                    </div>
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian name : </span>Ramchandra</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian number : </span>6578902345</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Nationality : </span>indian</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Date of Birth</span>29/05/2002</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Hello world</span></p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Hello world</span></p>
+         <div class="col-lg-8  p-2">
+             <div class="card p-5">
+                 <h3 class="text-primary mb-4" style="border-bottom: 2px solid #ffab00;">General Information</h3>
+ 
+                 <div class="row">
+ 
+                     <div class="col-lg-6">
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Full Name : </span> {{student.full_name}}</p>
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Father's name : </span> {{student.father_name}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Father occupation : </span> {{student.father_occupation}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Father number : </span> {{student.father_number}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Mother name : </span> {{student.mother_name}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Mother occupation : </span> {{student.mother_occupation}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Mother number : </span>{{student.mother_number}}</p>
+ 
+ 
+                     </div>
+ 
+                     <div class="col-lg-6">
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian name : </span>{{student.garduian_name}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian number : </span>{{student.garduian_number}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Nationality : </span>{{student.nationality}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Date of Birth : </span>{{student.dob}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Gender : </span>{{student.gender}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Blood group : </span>{{student.blood_group}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Caste : </span>{{student.caste}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Religion : </span>{{student.religion}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Course : </span>{{student.course}}</p>
+ 
+                     </div>
+ 
+                 </div>
+ 
+                 <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">HSLC Information</h3>
+ 
+                 <div class="row">
+ 
+                     <div class="col-lg-6">
+ 
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc board :  </span> {{student.hslc_board}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc passing year : </span> {{student.hslc_passing_year}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc reg :  </span> {{student.hslc_reg}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc roll : </span> {{student.hslc_roll}}</p>
+                         
+                     </div>
+ 
+                     <div class="col-lg-6">
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc total marks : </span> {{student.hslc_total_marks}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc marks : </span> {{student.hslc_marks}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc percentage : </span> {{student.hslc_percentage}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hslc school : </span>{{student.hslc_school}}</p>
+                     </div>
+ 
+                 </div>
+ 
+                 <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">HSSLC Information</h3>
+ 
+                 <div class="row">
+ 
+                     <div class="col-lg-6">
+ 
+                         
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hsslc board :  </span> {{student.hsslc_board}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hsslc stream :  </span> {{student.hsslc_stream}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hsslc passing year : </span> {{student.hsslc_passing_year}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hsslc reg :  </span> {{student.hsslc_reg}}</p>
                         
-                    </div>
+                         
+ 
+ 
+                     </div>
+ 
+                     <div class="col-lg-6">
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hsslc roll : </span> {{student.hsslc_roll}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> Hsslc percentage : </span>{{student.hsslc_percentage}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Hsslc school : </span>{{student.hsslc_school}}</p>
+ 
+                     
+                         
+                     </div>
+ 
+                 </div>
+ 
+                 <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">Graduation Information</h3>
+ 
+                 <div class="row">
+ 
+                     <div class="col-lg-6">
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation Course name : </span> {{student.graduation_course_name}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation Board : </span> {{student.graduation_board}}</p>
 
-                </div>
-
-                <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">HSLC Information</h3>
-
-                <div class="row">
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Full Name : </span> Manju Das</p>
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father's name : </span> Ramchandra Das</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father occupation : </span> Business</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father number : </span> 9862285964</p>
-                        
-
-
-                    </div>
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian name : </span>Ramchandra</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian number : </span>6578902345</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Nationality : </span>indian</p>
-                    
-                        
-                    </div>
-
-                </div>
-
-                <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">HSSLC Information</h3>
-
-                <div class="row">
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Full Name : </span> Manju Das</p>
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father's name : </span> Ramchandra Das</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father occupation : </span> Business</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father number : </span> 9862285964</p>
-                        
-
-
-                    </div>
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian name : </span>Ramchandra</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian number : </span>6578902345</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Nationality : </span>indian</p>
-                    
-                        
-                    </div>
-
-                </div>
-
-                <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">Graduation Information</h3>
-
-                <div class="row">
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Full Name : </span> Manju Das</p>
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father's name : </span> Ramchandra Das</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father occupation : </span> Business</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father number : </span> 9862285964</p>
-                        
-
-
-                    </div>
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian name : </span>Ramchandra</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian number : </span>6578902345</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Nationality : </span>indian</p>
-                    
-                        
-                    </div>
-
-                </div>
-
-                <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">Post Graduation Information</h3>
-
-                <div class="row">
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Full Name : </span> Manju Das</p>
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father's name : </span> Ramchandra Das</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father occupation : </span> Business</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Father number : </span> 9862285964</p>
-                        
-
-
-                    </div>
-
-                    <div class="col-lg-6">
-
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian name : </span>Ramchandra</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Garduian number : </span>6578902345</p>
-                        <p style="text-transform:capitalize"><span style="font-weight:bold">Nationality : </span>indian</p>
-                    
-                        
-                    </div>
-
-                </div>
-
-
-            </div>
-        </div>     
-        
-
-    </div>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> >Graduation Course type : </span> {{student.graduation_course_type}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation year : </span> {{student.graduation_year}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation reg : </span> {{student.graduation_reg}}</p>
+ 
+ 
+                     </div>
+ 
+                     <div class="col-lg-6">
+ 
+                        <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation roll: </span>{{student.graduation_roll}}</p>
+                         
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation total marks : </span>{{student.graduation_total_marks}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation marks : </span>{{student.graduation_marks}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation percentage : </span>{{student.graduation_percentage}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">Graduation university : </span>{{student.graduation_university}}</p>
+                     </div>
+ 
+                 </div>
+ 
+                 <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">Post Graduation Information</h3>
+ 
+                 <div class="row">
+ 
+                     <div class="col-lg-6">
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post  graduation course : </span> {{student.post_graduation_course_name}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold">post graduation board : </span> {{student.post_graduation_board}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation course type : </span> {{student.post_graduation_course_type}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation year : </span> {{student.post_graduation_year}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation reg : </span> {{student.post_graduation_reg}}</p>
+                         
+                         
+                         
+ 
+ 
+                     </div>
+ 
+                     <div class="col-lg-6">
+ 
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation  total marks : </span> {{student.post_graduation_roll}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation marks : </span> {{student.post_graduation_total_marks}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation percentage : </span> {{student.post_graduation_marks}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation university : </span>{{student.post_graduation_percentage}}</p>
+                         <p style="text-transform:capitalize"><span style="font-weight:bold"> post graduation roll : </span> {{student.post_graduation_university}}</p>
+                         
+                         
+                     </div>
+ 
+                 </div>
+ 
+ 
+             </div>
+         </div>     
+         
+ 
+     </div>
+    {% endif %}
 </div>
 
 

@@ -28,6 +28,41 @@
     </div>
 </div>
 
+
+{% if not user.is_superuser and not user.is_staff and admission_query.is_verified == 'True' %}
+
+  {% if notice %}
+  <div class="container">
+    <div class="row">
+      <div class="col card p-4">
+        <h3 class="text-primary" style="border-bottom: 2px solid #ffab00;">Notifications</h3>
+        <div>
+          {% for notice in notice %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span class="text-primary" style="font-weight:bold">{{notice.date_field}} :</span>
+            <strong>{{notice.title}} </strong> 
+                
+                {% if notice.document %}
+                <a href="{{notice.document.url}}" target="_blank">
+                    <span class="bg-primary py-2 px-4" style="border-radius:20px;color:white">View Document</span>
+                </a>
+                {% endif %}
+
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% else %}
+            <p class="text-center text-danger" style="font-weight:bold">No Notice Found</p>
+       
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+{% endif %}
+
 {% if admission_form == 'False' %}
 {% for message in messages %}
             <div class="alert alert-{{message.tags}} alert-dismissible fade show text-center" role="alert">
@@ -69,7 +104,7 @@
         
            <div class="d-flex my-3">
             <input type="email" name="email" value="{{user.email}}" class="form-control py-3 px-3 mx-3" id="" required>
-            <input type="tel" name="phone" class="form-control py-3 px-3 mx-3" placeholder="Your Phone" id="" required>
+            <input type="number" name="phone" class="form-control py-3 px-3 mx-3" placeholder="Your Phone" id="" required>
            </div>
         
             <div class="d-flex justify-content-center align-items-center">
@@ -141,7 +176,7 @@
             required
           />
           <input
-            type="tel"
+            type="number"
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
             placeholder="Father's Contact Number"
             id=""
@@ -173,7 +208,7 @@
   
         <div class="d-md-flex mt-3">
           <input
-            type="tel"
+            type="number"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
             id=""
@@ -195,7 +230,7 @@
             required
           />
           <input
-            type="tel"
+            type="number"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
             id=""
@@ -216,12 +251,14 @@
             required
           />
           <input
-            type="date"
+            type="text"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
             id=""
             placeholder="Date of Birth "
             name="dob"
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')"
             required
           />
         </div>
@@ -267,7 +304,7 @@
           </select>
 
           <select name="course" class="form-select mt-2 mt-md-0 py-3 px-3 mx-md-3" aria-label="Default select example">
-            <option selected>BTech</option>
+            <option selected>Course</option>
             <option>BBA</option>
             <option>BCA</option>
             <option>MTech</option>
@@ -294,7 +331,9 @@
           </select>
   
           <input
-            type="tel"
+            type="text"
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')"
             name="hslc_passing_year"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -309,7 +348,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="hslc_reg"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -318,7 +357,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="hslc_roll"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -333,7 +372,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="hslc_total_marks"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -342,7 +381,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="hslc_marks"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -358,7 +397,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="hslc_percentage"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -367,7 +406,7 @@
           
         />
           <input
-            type="tel"
+            type="text"
             name="hslc_school"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -397,7 +436,7 @@
           </select>
   
           <input
-            type="tel"
+            type="text"
             name="hsslc_stream"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -421,7 +460,9 @@
           required
         /> {% endcomment %}
           <input
-            type="tel"
+            type="text"
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')"
             name="hsslc_passing_year"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -436,7 +477,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="hsslc_reg"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -445,7 +486,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="hsslc_roll"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -461,7 +502,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="hsslc_percentage"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -470,7 +511,7 @@
           
         />
           <input
-            type="tel"
+            type="text"
             name="hsslc_school"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -493,7 +534,7 @@
   
         <div class="d-md-flex mt-3">
           <input
-          type="tel"
+          type="text"
           name="graduation_course_name"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -515,16 +556,6 @@
        
   
         <div class="d-md-flex mt-3">
-    
-          {% comment %} <input
-          type="tel"
-          name=""
-          value=""
-          class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
-          id=""
-          placeholder="Reg. No Of HSSLC Examination "
-          required
-        /> {% endcomment %}
   
         <select name='graduation_course_type' class="form-select mt-2 mt-md-0 py-3 px-3 mx-md-3" aria-label="Default select example">
           <option selected>Select one</option>
@@ -534,7 +565,9 @@
           
         </select> 
           <input
-            type="tel"
+            type="text"
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')"
             name="graduation_year"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -549,7 +582,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="graduation_reg"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -558,7 +591,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="graduation_roll"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -574,7 +607,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="graduation_total_marks"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -583,7 +616,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="graduation_marks"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -598,7 +631,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="graduation_percentage"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -607,7 +640,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="graduation_university"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -630,7 +663,7 @@
   
         <div class="d-md-flex mt-3">
           <input
-          type="tel"
+          type="text"
           name="post_graduation_course_name"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -652,17 +685,7 @@
        
   
         <div class="d-md-flex mt-3">
-    
-          {% comment %} <input
-          type="tel"
-          name=""
-          value=""
-          class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
-          id=""
-          placeholder="Reg. No Of HSSLC Examination "
-          required
-        /> {% endcomment %}
-  
+
         <select name="post_graduation_course_type" class="form-select mt-2 mt-md-0 py-3 px-3 mx-md-3" aria-label="Default select example">
           <option selected>Select one</option>
           <option>AHSEC</option>
@@ -672,7 +695,9 @@
         </select> 
   
           <input
-            type="tel"
+            type="text"
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')"
             name="post_graduation_year"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -687,7 +712,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="post_graduation_reg"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -696,7 +721,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="post_graduation_roll"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -712,7 +737,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="post_graduation_total_marks"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -721,7 +746,7 @@
           
         />
           <input
-            type="tel"
+            type="number"
             name="post_graduation_marks"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -736,7 +761,7 @@
         <div class="d-md-flex mt-3">
     
           <input
-          type="tel"
+          type="number"
           name="post_graduation_percentage"
           value=""
           class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"
@@ -745,7 +770,7 @@
           
         />
           <input
-            type="tel"
+            type="text"
             name="post_graduation_university"
             value=""
             class="form-control mt-2 mt-md-0 py-3 px-3 mx-md-3"

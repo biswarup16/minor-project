@@ -4,7 +4,22 @@
 
 {% if user.is_superuser %}
 <div class="card">
+  
     <h5 class="card-header">Uploaded Files</h5>
+
+    
+    <form action="" class="d-md-flex mb-2 container" method="post">
+      {% csrf_token %}
+      <input type="text"
+      name="course"
+      placeholder="Filter By Title..." class="form-control mr-3">
+      <a href="">
+        <button type="submit" class="btn btn-success py-2 px-5 " style="margin-left:15px">All</button>
+      </a>
+
+      <button type="submit" class="btn btn-success py-2 px-5 mx-3">Search</button>
+    </form>
+
     <div class="card-body">
       <div class="table-responsive text-nowrap">
         <table class="table table-bordered">

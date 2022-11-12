@@ -1,6 +1,6 @@
 import os
 # from urllib import request
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from . models import *
 from django.contrib import messages
 import uuid
@@ -166,11 +166,6 @@ def dashboard(request):
     profile_obj = Profile.objects.get(user = user)
    
     prospectus = Prospectus.objects.get(user = user)
-    # if AdmissionForm.objects.filter(user = user) is not None:
-    #     admission_form = AdmissionForm.objects.filter(user = user)
-    #     print(admission_form)
-    # else:
-    #     admission_form = None 
     
     admission_query = AdmissionForm.objects.filter(user = user).first()
     if admission_query is not None:
@@ -183,10 +178,6 @@ def dashboard(request):
         admission_document_form = 'True'
     else:
         admission_document_form = 'False'
-    
-    # admission_form = AdmissionForm.objects.get(user = user)
-    # print(admission_query.user)
-    
     if  request.method=='POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -199,9 +190,8 @@ def dashboard(request):
         order_id = payment['id']
         prospectus = Prospectus(id=prospectus.id,user_id = prospectus.user_id,first_name=first_name,last_name=last_name,email=email,phone=phone,order_id=order_id)
         prospectus.save()
-    
-    
-    
+        
+
         if prospectus is not None:
             context ={
                 'api_key':RAZORPAY_API_KEY,
@@ -209,11 +199,12 @@ def dashboard(request):
                 'currency':order_currency,
                 'order_id':order_id,'profile_obj':profile_obj,'prospectus':prospectus,'payment':payment
             }
-        return render(request,'dashboard/dashboard.html',context)  
+        return render(request,'dashboard/dashboard.html',context) 
+     
+    notice = Notice.objects.all().order_by('-date_field')[:10]
+    context_obj={'profile_obj':profile_obj,'user':user,'prospectus':prospectus,'admission_form':admission_form,'admission_query':admission_query,'admission_document_form':admission_document_form,'notice':notice}
     
-    
-    
-    return render(request,'dashboard/dashboard.html',{'profile_obj':profile_obj,'user':user,'prospectus':prospectus,'admission_form':admission_form,'admission_query':admission_query,'admission_document_form':admission_document_form})    
+    return render(request,'dashboard/dashboard.html',context_obj)    
 
 # ------------------------Email Verification Code----------------------------  
 
@@ -455,6 +446,22 @@ def upload_document(request):
 def not_found(request):
     return render(request,'dashboard/not-found.html')
 
+def upload_file(request):
+    try:
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            description = request.POST.get('description')
+            document = request.FILES['document']
+            file_obj = UploadFile.objects.create(title=title,description=description,document=document)
+            return redirect('upload_file')
+        
+        else:
+            notice = UploadFile.objects.all().order_by('-id')[:6]
+            context={'notice':notice}
+            return render(request,'dashboard/upload-file.html',context)
+    except:
+        print('Something Went Worng')
+
 @login_required(login_url='/')
 def view_file(request):
     file_obj = UploadFile.objects.all()
@@ -478,12 +485,18 @@ def print_id(request,username):
 @login_required(login_url='/')
 def search_student(request):
     try:
-        student_name = request.POST.get('student')
-        if len(student_name) > 0:
-            student_obj = Profile.objects.filter(first_name__icontains=student_name)[:5]
-            return render(request,'base/search.html',{'student_obj':student_obj})
+        student_obj = 'Null'
+        
+        if request.method == 'POST':
+            student_name = request.POST.get('student')
+            if len(student_name) > 0:
+                student_obj = Profile.objects.filter(first_name__icontains=student_name)[:5]
+                return render(request,'base/search.html',{'student_obj':student_obj})
+            else:
+                student_obj = 'Null'
+                return render(request,'base/search.html',{'student_obj':student_obj})
         else:
-            return render(request,'base/search.html',{'student_obj':None})
+            return render(request,'base/search.html',{'student_obj':student_obj})
     except Exception as e:
         print(e)
         
@@ -496,11 +509,11 @@ def selected_students(request):
     try:
         if request.method == 'POST':
             course = request.POST.get('course')
-            student = AdmissionForm.objects.filter(is_verified='True').filter(course__icontains=course)
+            student = AdmissionForm.objects.filter(is_verified='True').filter(course__icontains=course).order_by('-hslc_percentage')
             context={'student':student}
             return render(request,'dashboard/selected-students.html',context)
         else:
-            student = AdmissionForm.objects.filter(is_verified='True')
+            student = AdmissionForm.objects.filter(is_verified='True').order_by('-hslc_percentage')
             context={'student':student}
             return render(request,'dashboard/selected-students.html',context)
     except:
@@ -509,6 +522,46 @@ def selected_students(request):
 
 
 def selected_students_details(request,id):
-    return render(request,'dashboard/selected-students-details.html')
+    student = AdmissionForm.objects.get(id=id)
+    profile = Profile.objects.get(user=student.user)
+    document = AdmissionDocument.objects.get(user=student.user)
+    print(profile)
+    context={'student':student,'profile':profile,'document':document}
+    return render(request,'dashboard/selected-students-details.html',context)
+
+
+# ------------------------------------------------------------------------------------------------
+# ----------------------------------- Notices Modules ------------------------------- 
+
+def upload_notice(request):
+    try:
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            document = request.FILES['document']
+            notice_obj = Notice.objects.create(title=title,document=document)
+            return redirect('upload_notice')
+        
+        else:
+            notice = Notice.objects.all().order_by('-date_field')[:6]
+            context={'notice':notice}
+            return render(request,'dashboard/upload-notice.html',context)
+    except:
+        print('Something Went Worng')
+    
+
+def all_notice(request):
+    try:
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            notice = Notice.objects.filter(title__icontains=title).order_by('-date_field')
+            context={'notice':notice}
+            return render(request,'dashboard/all-notice.html',context)
+        else:
+            notice = Notice.objects.all().order_by('-date_field')
+            context={'notice':notice}
+            return render(request,'dashboard/all-notice.html',context)
+    except:
+        print('Something Went Worng')
+        
    
 

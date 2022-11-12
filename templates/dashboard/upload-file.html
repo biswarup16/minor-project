@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+{% block title %}View All Notices{% endblock title %}
+{% load static %}
+
+{% block body %}
+
+<div class="container">
+    <h3 class="text-primary">Upload Files</h3>
+
+    <div class="row">
+        <div class="col-lg-6 p-3">
+            <div class="card p-3">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="d-flex flex-column">
+                        <label for="">Title</label>
+                        <input class="form-control mt-3" type="text" name="title" id="" placeholder="File Title..." required>
+                    </div>
+                    <div class="mt-4">
+                        <label for="">File Description</label>
+                        <textarea name="description" class="form-control mt-3" id="" cols="30" placeholder="File Description..." rows="3" required></textarea>
+                    </div>
+                    <div class="d-flex flex-column mt-4">
+                        <label for="">Upload File</label>
+                        <input class="form-control mt-3" type="file" name="document" id="" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4" style="width:100%">Add File</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6 p-3">
+            <div class="card p-3">
+                <h3 class="text-primary" style="border-bottom: 2px solid #ffab00;">Files</h3>
+                
+                {% if notice %}
+                    {% for notice in notice %}
+                        <p class="mt-3 d-flex flex-column flex-md-row align-items-center "><span style="font-weight:bold">{{forloop.counter}} - </span> {{notice.title | slice:"0:15"}} ... 
+                            {% if notice.document %}
+                                <a href="{{notice.document.url}}" target="_blank" class="bg-success text-white px-4 py-2 text-center" style="border-radius:50px;margin-left:20px">View Document</a>
+                            {% endif %}
+                        </p>
+                        
+
+                       
+                    {% endfor %}
+                {% else %}
+                        <p class="text-center text-danger" style="font-weight:bold">No Notice Found</p>
+                {% endif %}
+                <a href="{% url 'view_file' %}">
+                    <button class="btn btn-primary mt-3" style="width:100%">View All</button>
+                </a>
+            
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock body %}

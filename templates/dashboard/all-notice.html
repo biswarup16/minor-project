@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% block title %}View All Notices{% endblock title %}
+{% load static %}
+
+{% block body %}
+
+<div class="container card p-5">
+    <h3 class="text-primary">All Notices</h3>
+
+    <form action="" class="d-md-flex mb-4" method="post">
+        {% csrf_token %}
+        <input type="text"
+        name="title"
+        placeholder="Filter By Title..." class="form-control mr-3">
+        <a href="{% url 'all_notice' %}">
+          <button type="submit" class="btn btn-success py-2 px-5 " style="margin-left:15px">All</button>
+        </a>
+  
+        <button type="submit" class="btn btn-success py-2 px-5 mx-3">Search</button>
+      </form>
+
+    <div>
+
+       {% if notice %}
+        {% for notice in notice %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span class="text-primary" style="font-weight:bold">{{notice.date_field}} :</span>
+            <strong>{{notice.title}} </strong> 
+                
+                {% if notice.document %}
+                <a href="{{notice.document.url}}" target="_blank">
+                    <span class="bg-primary py-2 px-4" style="border-radius:20px;color:white">View Document</span>
+                </a>
+                {% endif %}
+
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% else %}
+            <p class="text-center text-danger" style="font-weight:bold">No Notice Found</p>
+       {% endif %}
+
+
+ 
+    </div> 
+
+</div>
+
+{% endblock body %}

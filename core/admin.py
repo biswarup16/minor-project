@@ -23,3 +23,6 @@ class SettingsAdmin(admin.ModelAdmin):
             return True
         else:
             return False
+        
+admin.site.register(Notice)        
+        
