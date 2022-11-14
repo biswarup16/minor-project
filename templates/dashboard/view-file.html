@@ -11,13 +11,15 @@
     <form action="" class="d-md-flex mb-2 container" method="post">
       {% csrf_token %}
       <input type="text"
-      name="course"
+      name="title"
       placeholder="Filter By Title..." class="form-control mr-3">
+      <div class="d-flex mt-3 mt-lg-0">
       <a href="">
         <button type="submit" class="btn btn-success py-2 px-5 " style="margin-left:15px">All</button>
       </a>
 
       <button type="submit" class="btn btn-success py-2 px-5 mx-3">Search</button>
+    </div>
     </form>
 
     <div class="card-body">
@@ -63,10 +65,10 @@
   <div aria-label="Page navigation example" class="my-5">
     <ul class="pagination  ">
       {% if file_obj.has_previous %}
-      <li class="page-item ">
+      <li class="page-item border border-secondary mx-3 mx-lg-0">
         <a href="/files/?page={{ file_obj.previous_page_number }}" class="page-link">Previous</a>
       </li>
-      <li class="page-item ">
+      <li class="page-item border border-secondary">
         <a href="/files/?page=1" class="page-link">First</a>
       </li>
       

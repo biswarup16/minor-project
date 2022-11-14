@@ -50,7 +50,9 @@ body{
                        <!-- Logo -->
                        <div class="app-brand justify-content-center mb-4">
                           <a href="{% url 'login' %}" class="app-brand-link gap-2">
-                             <img src="https://erp.dbuniversity.ac.in/adbu_erp/images/logo.png" style="height:50px" alt="">
+                             {% if setting.logo %}
+                             <img src="{{setting.logo.url}}" style="height:50px" alt="">
+                             {% endif %}
                           </a>
                        </div>
                        <!-- /Logo -->

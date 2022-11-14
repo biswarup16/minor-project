@@ -40,6 +40,11 @@ IS_VERIFIED = [
     ('False', 'False'),
 ]
 
+IS_ACTIVE = [
+    ('Active', 'Active'),
+    ('InActive', 'InActive'),
+]
+
 class AdmissionForm(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE) 
     full_name = models.CharField(max_length=200)
@@ -170,11 +175,27 @@ class Notice(models.Model):
         return self.title
     
  
+# -------------------------------- Teacher Models ----------------------------------    
+
     
 
+class Teacher(models.Model):
+    name = models.CharField('Employee Name',max_length=100)
+    photo = models.ImageField(upload_to='teacher')
+    employee_id = models.CharField('Employee ID',max_length=60)
+    designation = models.CharField('Designation',max_length=150)
+    phone = models.CharField('Phone Number',max_length=12)
+    email = models.CharField('Email ID',max_length=100)
+    status = models.CharField('Employee Status',max_length=10,
+        choices=IS_ACTIVE,
+        default='Active')
+    
+    def __str__(self):
+        return self.name
   
     
 
+   
    
     
     

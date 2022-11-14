@@ -1,34 +1,48 @@
 {% extends 'base/base.html' %}
-{% block title %}View All Notices{% endblock title %}
+{% block title %}View All Notice{% endblock title %}
+{% block styles %}
+@media screen and (max-width: 771px) {
+  .view-document {
+    margin-top:10px !important;
+    margin-left:0px !important;
+  }
+
+}
+.view-document{
+  margin-left:10px !important;
+}
+{% endblock styles %}
 {% load static %}
 
 {% block body %}
 
-<div class="container card p-5">
-    <h3 class="text-primary">All Notices</h3>
+<div class="container card p-lg-5">
+    <h3 class="text-primary mt-3">All Notice</h3>
 
     <form action="" class="d-md-flex mb-4" method="post">
         {% csrf_token %}
         <input type="text"
         name="title"
-        placeholder="Filter By Title..." class="form-control mr-3">
-        <a href="{% url 'all_notice' %}">
-          <button type="submit" class="btn btn-success py-2 px-5 " style="margin-left:15px">All</button>
-        </a>
-  
-        <button type="submit" class="btn btn-success py-2 px-5 mx-3">Search</button>
+        placeholder="Filter By Title..." class="form-control mr-lg-3">
+        <div class="d-flex mt-3 mt-lg-0">
+            <a href="{% url 'all_notice' %}">
+                <button type="submit" class="btn btn-success py-2 px-5 " style="margin-left:15px">All</button>
+            </a>
+        
+            <button type="submit" class="btn btn-success py-2 px-5 mx-3">Search</button>
+        </div>
       </form>
 
     <div>
 
-       {% if notice %}
-        {% for notice in notice %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <span class="text-primary" style="font-weight:bold">{{notice.date_field}} :</span>
-            <strong>{{notice.title}} </strong> 
+       {% if notice_obj %}
+        {% for notice_obj in notice_obj %}
+        <div class="alert alert-success alert-dismissible fade show d-flex flex-column " role="alert">
+            <span class="text-primary" style="font-weight:bold">{{notice_obj.date_field}} :</span>
+            <strong>{{notice_obj.title}} </strong> 
                 
-                {% if notice.document %}
-                <a href="{{notice.document.url}}" target="_blank">
+                {% if notice_obj.document %}
+                <a href="{{notice_obj.document.url}}" class="view-document my-3" target="_blank">
                     <span class="bg-primary py-2 px-4" style="border-radius:20px;color:white">View Document</span>
                 </a>
                 {% endif %}
@@ -45,6 +59,44 @@
  
     </div> 
 
+</div>
+
+<div aria-label="Page navigation example" class="my-5">
+  <ul class="pagination  ">
+    {% if notice_obj.has_previous %}
+    <li class="page-item ">
+      <a href="/files/?page={{ notice_obj.previous_page_number }}" class="page-link">Previous</a>
+    </li>
+    <li class="page-item ">
+      <a href="/files/?page=1" class="page-link">First</a>
+    </li>
+    
+    {% endif %}
+    <div class="d-none d-md-flex">
+      <li class="page-item"><a class="page-link" href="#"><span class="current bg-primary text-white" style="padding: 10px 12px !important;">
+      Page {{ notice_obj.number }} of {{ notice_obj.paginator.num_pages }}.
+      </span></a>
+    </li>
+    </div>
+    {% comment %} <li class="page-item"><a class="page-link" href="#">3</a></li> {% endcomment %}
+    {% if notice_obj.has_next %}
+    
+
+      <li class="page-item d-flex align-items-center border border-secondary mx-2 px-2">
+        <a class="page-link mx-md-2" href="/files/?page={{ notice_obj.next_page_number }}">Next</a>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" mx-md-2" style="height:20px">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+        </svg>
+        
+      </li>
+      <li class="page-item border border-secondary">
+        <a class="page-link" href="/files/?page={{ notice_obj.paginator.num_pages  }}">Last</a>
+      </li>
+
+    
+    {% endif %}
+
+  </ul>
 </div>
 
 {% endblock body %}

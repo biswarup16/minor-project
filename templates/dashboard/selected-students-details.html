@@ -37,7 +37,7 @@
  
                  <div class="col py-4">
                      <div class=" card py-5">
-                         <div class="px-5">
+                         <div class="px-lg-5 px-4">
                              <h3 class="text-primary mb-4 " style="border-bottom: 2px solid #ffab00;">Supported Documents</h3>
                          </div>
  
@@ -49,8 +49,29 @@
                                 {% if document.hslc_doc %}
                                 src="{{document.hslc_doc.url}}"
                                 {% endif %}
-                                style="height:150px;width:150px" alt="">
-                                <p>HSLC Document</p>
+                                style="height:150px;width:150px" alt=""
+                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                >
+                                <p class="mt-2">HSLC DOCUMENT</p>
+                                <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">HSLC DOCUMENT</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img 
+                                            {% if document.hslc_doc %}
+                                            src="{{document.hslc_doc.url}}"
+                                            class="img-fluid"
+                                            {% endif %}
+                                            >
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
@@ -58,7 +79,30 @@
                                 {% if document.hslc_marksheet %}
                                 src="{{document.hslc_marksheet.url}}"
                                 {% endif %}
-                                style="height:150px;width:150px" alt="">                                <p>HSLC Marksheet</p>
+                                style="height:150px;width:150px" alt=""
+                                data-bs-toggle="modal" data-bs-target="#exampleModal1"
+
+                                >
+                                <p class="mt-2">HSLC MARKSHEET</p>
+                                <div class="modal fade " id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel1">HSLC MARKSHEET</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img 
+                                            {% if document.hslc_marksheet %}
+                                            src="{{document.hslc_marksheet.url}}"
+                                            class="img-fluid"
+                                            {% endif %}
+                                            >
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
@@ -66,7 +110,29 @@
                                 {% if document.hsslc_doc %}
                                 src="{{document.hsslc_doc.url}}"
                                 {% endif %}
-                                style="height:150px;width:150px" alt="">                                <p>HSSLC Document</p>
+                                style="height:150px;width:150px" alt=""
+                                data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                                >                                
+                                <p class="mt-2">HSSLC DOCUMENT</p>
+                                <div class="modal fade " id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel2">HSLC DOCUMENT</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img 
+                                            {% if document.hsslc_doc %}
+                                            src="{{document.hsslc_doc.url}}"
+                                            class="img-fluid"
+                                            {% endif %}
+                                            >
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
@@ -74,7 +140,29 @@
                                 {% if document.hsslc_marksheet %}
                                 src="{{document.hsslc_marksheet.url}}"
                                 {% endif %}
-                                style="height:150px;width:150px" alt="">                                    <p>HSSLC Marksheet</p>
+                                style="height:150px;width:150px" alt=""
+                                data-bs-toggle="modal" data-bs-target="#exampleModal3"
+                                >                                
+                                <p class="mt-2">HSSLC MARKSHEET</p>
+                                <div class="modal fade " id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel3">HSLC MARKSHEET</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img 
+                                            {% if document.hsslc_marksheet %}
+                                            src="{{document.hsslc_marksheet.url}}"
+                                            class="img-fluid"
+                                            {% endif %}
+                                            >
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-lg-6 d-flex flex-column align-items-center justify-content-center">
@@ -82,7 +170,29 @@
                                 {% if document.caste_certificate %}
                                 src="{{document.caste_certificate.url}}"
                                 {% endif %}
-                                style="height:150px;width:150px" alt="">                                 <p>CASTE CERTIFICATE</p>
+                                style="height:150px;width:150px" alt=""
+                                data-bs-toggle="modal" data-bs-target="#exampleModal4"
+                                >                                 
+                                <p class="mt-2">CASTE CERTIFICATE</p>
+                                <div class="modal fade " id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel4">CASTE CERTIFICATE</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img 
+                                            {% if document.caste_certificate %}
+                                            src="{{document.caste_certificate.url}}"
+                                            class="img-fluid"
+                                            {% endif %}
+                                            >
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
                              {% endif %}
  
@@ -100,7 +210,7 @@
  
         
          <div class="col-lg-8  p-2">
-             <div class="card p-5">
+             <div class="card p-lg-5 p-4">
                  <h3 class="text-primary mb-4" style="border-bottom: 2px solid #ffab00;">General Information</h3>
  
                  <div class="row">
@@ -135,7 +245,7 @@
  
                  </div>
  
-                 <h3 class="text-primary my-4" style="border-bottom: 2px solid #ffab00;">HSLC Information</h3>
+                 <h3 class="text-primary my-4 " style="border-bottom: 2px solid #ffab00;">HSLC Information</h3>
  
                  <div class="row">
  

@@ -13,7 +13,7 @@ from adbu.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
-
+from django.contrib.auth.decorators import permission_required
 
 # Create your views here.
 
@@ -464,20 +464,36 @@ def upload_file(request):
 
 @login_required(login_url='/')
 def view_file(request):
-    file_obj = UploadFile.objects.all()
-    paginator = Paginator(file_obj,3)
     
-    page_number = request.GET.get('page')
-    FIleDataFinal = paginator.get_page(page_number)
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        file_obj = UploadFile.objects.filter(title__icontains=title)
+        paginator = Paginator(file_obj,3)
+        
+        page_number = request.GET.get('page')
+        FIleDataFinal = paginator.get_page(page_number)
+    else:
+        file_obj = UploadFile.objects.all()
+        paginator = Paginator(file_obj,3)
+        
+        page_number = request.GET.get('page')
+        FIleDataFinal = paginator.get_page(page_number)    
     # UserDataFinal = user_paginate.get_page(page_number)
     return render(request,'dashboard/view-file.html',{'file_obj':FIleDataFinal})
 
 
 # ------------------------------------------------------------------------------------------------
 # ----------------------------------- Print ID Card -------------------------------
+
 @login_required(login_url='/')
-def print_id(request,username):
-    return render(request,'dashboard/print-id.html')
+@permission_required('is_superuser')
+def print_id(request,id):
+    user_id = id
+    user_obj = Profile.objects.get(id=user_id)
+    user = AdmissionForm.objects.get(user=user_obj.user)
+    print(user_obj)
+    context={'obj':user,'profile':user_obj}
+    return render(request,'dashboard/print-id.html',context)
 
 
 # ------------------------------------------------------------------------------------------------
@@ -513,14 +529,18 @@ def selected_students(request):
             context={'student':student}
             return render(request,'dashboard/selected-students.html',context)
         else:
+            
             student = AdmissionForm.objects.filter(is_verified='True').order_by('-hslc_percentage')
-            context={'student':student}
+            paginator = Paginator(student,2)
+            page_number = request.GET.get('page')
+            StudentFinalData = paginator.get_page(page_number)
+            context={'student':StudentFinalData}
             return render(request,'dashboard/selected-students.html',context)
     except:
         print("Something Went Wrong")
 
 
-
+@login_required(login_url='/')
 def selected_students_details(request,id):
     student = AdmissionForm.objects.get(id=id)
     profile = Profile.objects.get(user=student.user)
@@ -532,7 +552,7 @@ def selected_students_details(request,id):
 
 # ------------------------------------------------------------------------------------------------
 # ----------------------------------- Notices Modules ------------------------------- 
-
+@login_required(login_url='/')
 def upload_notice(request):
     try:
         if request.method == 'POST':
@@ -547,21 +567,51 @@ def upload_notice(request):
             return render(request,'dashboard/upload-notice.html',context)
     except:
         print('Something Went Worng')
+        
     
-
+@login_required(login_url='/')
 def all_notice(request):
     try:
         if request.method == 'POST':
             title = request.POST.get('title')
             notice = Notice.objects.filter(title__icontains=title).order_by('-date_field')
-            context={'notice':notice}
+            
+            paginator = Paginator(notice,3)
+            page_number = request.GET.get('page')
+            NoticeFinalData = paginator.get_page(page_number)
+            context={'notice_obj':NoticeFinalData}
             return render(request,'dashboard/all-notice.html',context)
         else:
             notice = Notice.objects.all().order_by('-date_field')
-            context={'notice':notice}
+            paginator = Paginator(notice,3)
+            page_number = request.GET.get('page')
+            NoticeFinalData = paginator.get_page(page_number)
+            context={'notice_obj':NoticeFinalData}
+            # context={'notice':notice}
             return render(request,'dashboard/all-notice.html',context)
     except:
         print('Something Went Worng')
         
    
 
+# ------------------------------------------------------------------------------------------------
+# ----------------------------------- Teacher Modules ------------------------------- 
+
+@login_required(login_url='/')
+def teacher(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        print(name)
+        teacher_obj = Teacher.objects.filter(name__icontains=name)
+        paginator = Paginator(teacher_obj,3)
+        
+        page_number = request.GET.get('page')
+        TeacherDataFinal = paginator.get_page(page_number)
+    else:
+        teacher_obj = Teacher.objects.all()
+        paginator = Paginator(teacher_obj,3)
+        
+        page_number = request.GET.get('page')
+        TeacherDataFinal = paginator.get_page(page_number)
+    context = {'teacher_obj':TeacherDataFinal}
+    return render(request,'dashboard/teacher.html',context)

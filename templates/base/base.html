@@ -5,9 +5,7 @@
   lang="en"
   class="light-style layout-menu-fixed"
   dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="{% static 'assets/' %}"
-  data-template="vertical-menu-template-free"
+
 >
   <head>
     <meta charset="utf-8" />
@@ -24,7 +22,9 @@
     ></script>
     {% endcomment %}
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="" />
+    {% if setting.favicon %}
+    <link rel="icon" type="image/x-icon" href="{{setting.favicon.url}}" />
+    {% endif %}
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -164,11 +164,13 @@
                 >College ERP</span
               >
               {% endcomment %}
+              {% if setting.logo %}
               <img
-                src="data:image/jpeg;base64,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"
-                style="height: 35px"
-                alt=""
-              />
+              src="{{setting.logo.url}}"
+              style="height: 35px"
+              alt=""
+            />
+              {% endif %}
             </a>
             <a
               href="javascript:void(0);"
@@ -221,14 +223,14 @@
                     
                     class="menu-link"
                     target="_blank"
-                    href="{% url 'not_found' %}"
+                    href="{% url 'login' %}"
                   >
                     <div data-i18n="Basic">Login</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{% url 'not_found' %}"
+                    href="{% url 'register' %}"
                     class="menu-link"
                     target="_blank"
                   >
@@ -244,6 +246,7 @@
                     <div data-i18n="Basic">Forgot Password</div>
                   </a>
                 </li>
+                
               </ul>
             </li>
             <li class="menu-item">
@@ -286,79 +289,10 @@
                     <div data-i18n="Account">View Files</div>
                   </a>
                 </li>
-                {% comment %}
-                <li class="menu-item">
-                  <a
-                    href="pages-account-settings-notifications.html"
-                    class="menu-link"
-                  >
-                    <div data-i18n="Notifications">Notifications</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="pages-account-settings-connections.html"
-                    class="menu-link"
-                  >
-                    <div data-i18n="Connections">Connections</div>
-                  </a>
-                </li>
-                {% endcomment %}
+                
               </ul>
             </li>
-            {% comment %} <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                <div data-i18n="Authentications">Authentications</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a
-                    href="auth-login-basic.html"
-                    class="menu-link"
-                    target="_blank"
-                  >
-                    <div data-i18n="Basic">Login</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="auth-register-basic.html"
-                    class="menu-link"
-                    target="_blank"
-                  >
-                    <div data-i18n="Basic">Register</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="auth-forgot-password-basic.html"
-                    class="menu-link"
-                    target="_blank"
-                  >
-                    <div data-i18n="Basic">Forgot Password</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">Misc</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="pages-misc-error.html" class="menu-link">
-                    <div data-i18n="Error">Error</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="pages-misc-under-maintenance.html" class="menu-link">
-                    <div data-i18n="Under Maintenance">Under Maintenance</div>
-                  </a>
-                </li>
-              </ul>
-            </li> {% endcomment %}
+            
             {% endif %}
   
             {% if user.is_superuser %}
@@ -376,24 +310,7 @@
                     <div data-i18n="Account">Item Information</div>
                   </a>
                 </li>
-                {% comment %}
-                <li class="menu-item">
-                  <a
-                    href="pages-account-settings-notifications.html"
-                    class="menu-link"
-                  >
-                    <div data-i18n="Notifications">Notifications</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="pages-account-settings-connections.html"
-                    class="menu-link"
-                  >
-                    <div data-i18n="Connections">Connections</div>
-                  </a>
-                </li>
-                {% endcomment %}
+                
               </ul>
             </li>
             {% comment %} <li class="menu-item">
@@ -452,118 +369,24 @@
             {% endif %}
   
             <!-- Components -->
-            <!-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li> -->
-            <!-- Cards -->
-            <!-- <li class="menu-item">
-                     <a href="cards-basic.html" class="menu-link">
-                         <i class="menu-icon tf-icons bx bx-collection"></i>
-                         <div data-i18n="Basic">Cards</div>
-                     </a>
-                     </li> -->
+           <li class="menu-header small text-uppercase"><span class="menu-header-text">Teacher Management</span></li> 
+       
             <!-- User interface -->
-            <!-- <li class="menu-item">
+            <li class="menu-item">
                      <a href="javascript:void(0)" class="menu-link menu-toggle">
-                         <i class="menu-icon tf-icons bx bx-box"></i>
-                         <div data-i18n="User interface">User interface</div>
+                         <i class="menu-icon tf-icons bx bx-collection"></i>
+                         <div data-i18n="User interface">Teacher Details</div>
                      </a>
                      <ul class="menu-sub">
+
                          <li class="menu-item">
-                             <a href="ui-accordion.html" class="menu-link">
-                                 <div data-i18n="Accordion">Accordion</div>
+                             <a href="{% url 'teacher' %}" class="menu-link">
+                                 <div data-i18n="Accordion">View Teachers</div>
                              </a>
                          </li>
-                         <li class="menu-item">
-                             <a href="ui-alerts.html" class="menu-link">
-                                 <div data-i18n="Alerts">Alerts</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-badges.html" class="menu-link">
-                                 <div data-i18n="Badges">Badges</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-buttons.html" class="menu-link">
-                                 <div data-i18n="Buttons">Buttons</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-carousel.html" class="menu-link">
-                                 <div data-i18n="Carousel">Carousel</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-collapse.html" class="menu-link">
-                                 <div data-i18n="Collapse">Collapse</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-dropdowns.html" class="menu-link">
-                                 <div data-i18n="Dropdowns">Dropdowns</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-footer.html" class="menu-link">
-                                 <div data-i18n="Footer">Footer</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-list-groups.html" class="menu-link">
-                                 <div data-i18n="List Groups">List groups</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-modals.html" class="menu-link">
-                                 <div data-i18n="Modals">Modals</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-navbar.html" class="menu-link">
-                                 <div data-i18n="Navbar">Navbar</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-offcanvas.html" class="menu-link">
-                                 <div data-i18n="Offcanvas">Offcanvas</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-pagination-breadcrumbs.html" class="menu-link">
-                                 <div data-i18n="Pagination &amp; Breadcrumbs">Pagination &amp; Breadcrumbs</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-progress.html" class="menu-link">
-                                 <div data-i18n="Progress">Progress</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-spinners.html" class="menu-link">
-                                 <div data-i18n="Spinners">Spinners</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-tabs-pills.html" class="menu-link">
-                                 <div data-i18n="Tabs &amp; Pills">Tabs &amp; Pills</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-toasts.html" class="menu-link">
-                                 <div data-i18n="Toasts">Toasts</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-tooltips-popovers.html" class="menu-link">
-                                 <div data-i18n="Tooltips & Popovers">Tooltips &amp; popovers</div>
-                             </a>
-                         </li>
-                         <li class="menu-item">
-                             <a href="ui-typography.html" class="menu-link">
-                                 <div data-i18n="Typography">Typography</div>
-                             </a>
-                         </li>
+                         
                      </ul>
-                     </li> -->
+                     </li> 
             <!-- Extended components -->
             <!-- <li class="menu-item">
                      <a href="javascript:void(0)" class="menu-link menu-toggle">
@@ -685,10 +508,11 @@
                     <input
                       type="text"
                       class="form-control border-0 shadow-none"
-                      placeholder="Search Student By Name..."
+                      
                       aria-label="Search..."
                       name="student"
                       {% if user.is_superuser %}
+                      placeholder="Search Student By Name..."
                       hx-post="{% url 'search_student' %}" hx-target="#searchList" hx-trigger="keyup"
                       {% endif %}
                       onkeypress="return event.keyCode != 13;"
@@ -867,28 +691,32 @@
                   class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"
                 >
                   <div class="mb-2 mb-md-0">
-                    ©
+                    Copyright
                     <script>
                       document.write(new Date().getFullYear());
                     </script>
-                    , made by
+                    ©
                     <a href="#" target="_blank" class="footer-link fw-bolder"
-                      >Biswarup </a
+                      >{{setting.name}} </a
                     >
                   </div>
                   <div>
+                    &nbsp;
                     <a href="#" class="footer-link me-4" target="_blank"
-                      >License</a
+                      >All Rights Reserved</a
                     >
-                    <a href="#" target="_blank" class="footer-link me-4"
+                    &nbsp;
+                    {% comment %} <a href="#" target="_blank" class="footer-link me-4"
                       >Portfolio</a
                     >
+                    &nbsp;
                     <a href="#" target="_blank" class="footer-link me-4"
                       >Documentation</a
                     >
+                    &nbsp;
                     <a href="#" target="_blank" class="footer-link me-4"
                       >Support</a
-                    >
+                    > {% endcomment %}
                   </div>
                 </div>
               </footer>

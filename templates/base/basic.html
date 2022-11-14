@@ -2,7 +2,7 @@
 
 
 {% load static %}
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="{% static 'assets/' %}" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr">
 
 <head>
     <meta charset="utf-8" />
@@ -11,7 +11,9 @@
     <meta name="description" content="" />
     {% comment %} <script src="https://cdn.skypack.dev/pin/@hotwired/turbo@v7.1.0-V83RMQBlYCPK9CvTqQoL/mode=imports/optimized/@hotwired/turbo.js" type="module"></script> {% endcomment %}
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    {% if setting.favicon %}
+    <link rel="icon" type="image/x-icon" href="{{setting.favicon.url}}" />
+    {% endif %}
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

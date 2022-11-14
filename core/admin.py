@@ -13,6 +13,8 @@ admin.site.register(AdmissionDocument)
 
 admin.site.register(UploadFile)
 
+admin.site.register(Teacher)
+
 
 
 @admin.register(Settings)

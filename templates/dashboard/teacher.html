@@ -1,0 +1,120 @@
+{% extends 'base/base.html' %}
+{% block title %}Teacher Details{% endblock title %}
+
+{% block styles %}
+@media screen and (min-width: 1442px){
+    .card-section{
+        width: 343px !important;
+    }
+}
+@media screen and (max-width: 771px) {
+    .remove-margin {
+      margin-left:0px !important;
+    }
+  }
+{% endblock styles %}
+{% block body %}
+
+<div class="container mb-5">
+    
+    <div class="card px-4 py-4 container">
+        <h3 class="text-primary" style="border-bottom: 2px solid #ffab00;">Teacher Details</h3>
+
+    <form action="" class="d-md-flex mb-2" method="post">
+        {% csrf_token %}
+        <input type="text"
+        name="name"
+        placeholder="Filter By Teacher Name..." class="form-control mr-3">
+        <div class="d-flex mt-3 mt-lg-0">
+        <a href="{% url 'teacher' %}">
+          <button class="btn btn-success py-2 px-5 remove-margin" style="margin-left:15px">All</button>
+        </a>
+            &nbsp;&nbsp;
+        <button type="submit" class="btn btn-success py-2 px-5 mx-lg-3">Search</button>
+      </div>
+    </form>
+    </div>
+
+    <div class="row d-flex justify-content-center align-items-center">
+
+
+     {% if teacher_obj %}
+        {% for teacher_obj in teacher_obj %}
+        <div class="col-md-6 col-lg-4 mt-5 row d-flex justify-content-center align-items-center">
+            <div class="bg-white shadow-lg py-3 card-section" style="border-radius:20px">
+
+                <div class="d-flex justify-content-center align-items-center">
+                    <img style="height:300px;width:300px;border-radius:20px" src="{{teacher_obj.photo.url}}" alt="">
+
+                </div>
+
+                <div class="px-4">
+                    <div class="mt-4">
+                        <span style="border-radius:20px" class="text-white px-5 py-2 mt-2 
+                        {% if teacher_obj.status == 'Active' %}bg-success
+                        {% else %}bg-danger
+                        {% endif %}
+                        ">{{teacher_obj.status}}</span>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <p style="text-transform: capitalize !important;"><span class="text-primary" style="text-transform: capitalize !important;font-weight:bold">Employee Name : </span><span>{{teacher_obj.name}}</span></p>
+                        <p style="text-transform: capitalize !important;" class="mt-3"><span class="text-primary" style="text-transform: capitalize !important;font-weight:bold">Employee ID : </span><span>{{teacher_obj.employee_id}}</span></p>
+                        <p style="text-transform: capitalize !important;"><span class="text-primary"  style="text-transform: capitalize !important;font-weight:bold">Designation :</span> <span>{{teacher_obj.designation}}</span> </p>
+                        <hr style="border-bottom:2px solid #ffab00;">
+                            <p style="text-transform: capitalize !important;"><span class="text-primary" style="text-transform: capitalize !important;font-weight:bold">Phone Number : </span><span>{{teacher_obj.phone}}</span></p>
+                        <p style="text-transform: capitalize !important;"><span class="text-primary" style="text-transform: capitalize !important;font-weight:bold">Email ID : </span><span>{{teacher_obj.email}}</span></p>
+
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+     {% else %}
+        <p class="my-5 text-center text-danger">No Records Found</p>
+     {% endif %}
+
+    </div>
+</div>
+
+<div aria-label="Page navigation example" style="margin-bottom:100px !important" class="my-5">
+    <ul class="pagination  ">
+      {% if teacher_obj.has_previous %}
+      <li class="page-item border border-secondary mx-3 mx-lg-0">
+        <a href="/teacher-details/?page={{ teacher_obj.previous_page_number }}" class="page-link">Previous</a>
+      </li>
+      <li class="page-item border border-secondary">
+        <a href="/teacher-details/?page=1" class="page-link">First</a>
+      </li>
+      
+      {% endif %}
+      <div class="d-none d-md-flex">
+        <li class="page-item"><a class="page-link" href="#"><span class="current bg-primary text-white" style="padding: 10px 12px !important;">
+        Page {{ teacher_obj.number }} of {{ teacher_obj.paginator.num_pages }}.
+        </span></a>
+      </li>
+      </div>
+      {% comment %} <li class="page-item"><a class="page-link" href="#">3</a></li> {% endcomment %}
+      {% if teacher_obj.has_next %}
+      
+
+        <li class="page-item d-flex align-items-center border border-secondary mx-2 px-2">
+          <a class="page-link mx-md-2" href="/teacher-details/?page={{ teacher_obj.next_page_number }}">Next</a>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" mx-md-2" style="height:20px">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+          </svg>
+          
+        </li>
+        <li class="page-item border border-secondary">
+          <a class="page-link" href="/teacher-details/?page={{ teacher_obj.paginator.num_pages  }}">Last</a>
+        </li>
+
+      
+      {% endif %}
+
+    </ul>
+  </div>
+
+{% endblock body %}

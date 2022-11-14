@@ -48,7 +48,7 @@ urlpatterns = [
     path('under-mantainance/',not_found,name='not_found'),
     
     # ---------------------------------------Print ID Card--------------------------------------------- 
-    path('print-id-card/<str:username>/',print_id,name="print_id"),
+    path('print-id-card/<str:id>/',print_id,name="print_id"),
     
     
     # -------------------------------------Live Search Student----------------------------------------------- 
@@ -65,9 +65,11 @@ urlpatterns = [
     
     path('upload-notice/',upload_notice,name="upload_notice"),
     
-    path('view-all-notices/',all_notice,name="all_notice")
+    path('view-all-notices/',all_notice,name="all_notice"),
      
-    
+    # ------------------------------------Teacher Module------------------------------------------------ 
+     
+    path('teacher-details/',teacher,name="teacher")
 
     
 ] 
